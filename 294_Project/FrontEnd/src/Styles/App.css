@@ -1,0 +1,115 @@
+.App {
+  min-height: 100vh;
+  text-align: center;
+  background:linear-gradient(180deg, #cc2b5e, #753a88);
+  overflow: hidden;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+h2 a {
+  color: yellow;
+  text-decoration: none;
+}
+
+.button-bar {
+  display: grid;
+  grid: auto-flow / 1fr 1fr 1fr;
+  padding: 10px;
+}
+
+button {
+  font-size: 2em;
+  padding: 8px;
+  margin: 4px;
+  border-radius: 20px;
+}
+
+
+nav ul {
+  width: 100%;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+}
+
+.topnav-right {
+  float: right;
+}
+
+nav li {
+  float: left;
+}
+
+nav li a {
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+nav li a:hover {
+  background-color: rgb(187, 202, 211);
+}
+
+.App-Footer {
+  color: white;
+  font-size: calc(6px + 1vmin);
+  position: absolute;
+  padding: 10px 10px 0px 10px;
+  float: left;
+  right: 45%;
+  bottom: 0;
+  width: 100%;
+}
+
+footer img {
+  position: absolute;
+  max-height: 1.5rem;
+  bottom: 3vh;
+  right:50%;
+  margin:0;
+}
+
+.footer_text {
+  position: absolute;
+  bottom: 1vh;
+  right:48%;
+  margin:0;
+}
+.email{
+  position:absolute;
+  right: -43.5%;
+  bottom:1vh;
+}
+.website{
+  position:absolute;
+  right: -43.5%;
+  bottom:3vh;
+}
+
+/*
+*Footer Website link styling
+*/
+footer a:link{
+  color:rgb(255, 255, 255);
+  text-decoration: none;
+}
+footer a:visited{
+  color:rgb(255, 255, 255);
+  text-decoration: none;
+}
+footer a.website:hover{
+  color:rgb(158, 174, 255);
+  text-decoration: none;
+}
+footer a:active{
+  color:rgb(255, 255, 255);
+  text-decoration: none;
+}

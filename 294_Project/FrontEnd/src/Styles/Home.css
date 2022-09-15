@@ -1,0 +1,44 @@
+h1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 4vmin);
+    color: rgb(255, 255, 255);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.spacer{
+    height:50%;
+}
+hr{
+    border:solid 1px rgb(255, 255, 255);
+}
+
+hr.top{
+    position: fixed;
+    bottom: 150px;
+}
+#footer {
+    color: white;
+    font-size: calc(10px + 2vmin);
+    position: fixed;
+    padding: 10px 10px 0px 10px;
+    bottom: 20rem;
+    width: 100%;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(20px + 3vmin);
+    color: rgb(255, 255, 255);
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+
+  }
+
+hr {
+    width: 99% !important;
+}
