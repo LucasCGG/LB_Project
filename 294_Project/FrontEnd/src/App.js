@@ -9,6 +9,7 @@ import NotFound from './NotFound';
 import GlobalNavigation from './GlobalNavigation';
 import Home from './Home';
 import About from './About';
+import User from './User';
 import logo from './images/logo/Logo1.png';
 
 function App(props) {
@@ -17,6 +18,7 @@ function App(props) {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="About" element={<About />} />
+        <Route path="User" element={<User />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

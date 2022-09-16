@@ -6,6 +6,7 @@ h1{
     font-size: calc(10px + 4vmin);
     color: rgb(255, 255, 255);
     text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    user-select: none;
 }
 
 .spacer{
