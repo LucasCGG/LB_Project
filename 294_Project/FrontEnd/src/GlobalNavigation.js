@@ -17,6 +17,9 @@ class GlobalNavigation extends React.Component {
           <li>
             <Link to="/About">About this Project</Link>
           </li>
+          <li>
+            <Link to="/Snake">Snake</Link>
+          </li>
           <li className='topnav-right'>
             <Link to="/User">User</Link>
           </li>

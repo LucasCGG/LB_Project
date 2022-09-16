@@ -10,7 +10,9 @@ import GlobalNavigation from './GlobalNavigation';
 import Home from './Home';
 import About from './About';
 import User from './User';
+import Snake from './Snake-game';
 import logo from './images/logo/Logo1.png';
+import Leaderboard from './Leaderboard';
 
 function App(props) {
   return (
@@ -18,6 +20,8 @@ function App(props) {
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="About" element={<About />} />
+        <Route path="Leaderboard" element={<Leaderboard />}/>
+        <Route path='Snake' element={<Snake />}/>
         <Route path="User" element={<User />} />
       </Route>
       <Route path="*" element={<NotFound />} />
