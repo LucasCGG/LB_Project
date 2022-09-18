@@ -104,7 +104,6 @@ class App extends Component {
         for (let i=0; i<snake.length-3; i++) {
             if ((head.x === snake[i].x) &&(head.y === snake[i].y)) {
                 this.setState(initialState);
-                alert(`game over: ${snake.length*10}`)
             }
         }
     }

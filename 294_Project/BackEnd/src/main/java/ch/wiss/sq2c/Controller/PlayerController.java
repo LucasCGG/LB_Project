@@ -35,8 +35,16 @@ public class PlayerController {
      * this adds a new player
      */
     @PostMapping(path = "/add/")
-    public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody Player player) {
-        playerRepository.save(player);
+    public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody Player newPlayer) {
+        String confirmedEmail;
+        boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
+        if (isOk) {
+            confirmedEmail = newPlayer.email;
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Email... Please provide a valide E-Mail");
+        }
+        newPlayer.email = confirmedEmail;
+        playerRepository.save(newPlayer);
         return ResponseEntity.ok("User is valid");
     }
     /*

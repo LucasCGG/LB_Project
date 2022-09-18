@@ -9,10 +9,11 @@ import NotFound from './NotFound';
 import GlobalNavigation from './GlobalNavigation';
 import Home from './Home';
 import About from './About';
-import User from './User';
+import UserRegister from './UserRegister';
 import Snake from './Snake-game';
 import logo from './images/logo/Logo1.png';
 import Leaderboard from './Leaderboard';
+import UserLogin from './UserLogin';
 
 function App(props) {
   return (
@@ -22,7 +23,8 @@ function App(props) {
         <Route path="About" element={<About />} />
         <Route path="Leaderboard" element={<Leaderboard />}/>
         <Route path='Snake' element={<Snake />}/>
-        <Route path="User" element={<User />} />
+        <Route path="UserRegister" element={<UserRegister />} />
+        <Route path="UserLogin" element={<UserLogin />}/>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

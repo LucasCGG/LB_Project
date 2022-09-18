@@ -17,7 +17,7 @@ public class Player {
     @NotNull(message = "Name cannot be null")
     private String name;
 
-    private String email;
+    public String email;
     private String password;
 
     @Min(value = 18, message = "Age should not be less than 18")

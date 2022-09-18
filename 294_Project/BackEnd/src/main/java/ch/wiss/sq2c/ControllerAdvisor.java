@@ -1,4 +1,4 @@
-package ch.wiss;
+package ch.wiss.sq2c;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;

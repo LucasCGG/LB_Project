@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Navigation from './Styles/GlobalNavigation.css'
+
 class GlobalNavigation extends React.Component {
 
 
@@ -20,9 +22,15 @@ class GlobalNavigation extends React.Component {
           <li>
             <Link to="/Snake">Snake</Link>
           </li>
-          <li className='topnav-right'>
-            <Link to="/User">User</Link>
-          </li>
+          <div class="dropdown">
+            <li className='topnav-right'>
+              <a class="dropdown-toggle">User</a>
+              <div class="dropdown-content">
+                <Link to="/UserRegister">Sign Up</Link>
+                <Link to="/UserLogin">Login</Link>
+              </div>
+            </li>
+          </div>
         </ul>
       </nav></>
 

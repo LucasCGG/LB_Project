@@ -1,32 +1,36 @@
 import React from 'react';
+import './Styles/Leaderboard.css'
 
 class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            player: []
+            board: []
         };
+    }
+
+    resizeBoard() {
+
     }
 
 
     componentDidMount() {
-        if (this.state.player == null || this.state.player.length == 0) {
-        fetch("http://localhost:8080/Player/all/")
+        if (this.state.board == null || this.state.board.length == 0) {
+            fetch("http://localhost:8080/Leaderboard/")
                 .then(response => response.json())
-                .then(data => this.setState({ player: data }));
+                .then(data => this.setState({ board: data }));
         }
     }
 
 
     render() {
-        const result = this.state.player.map((e, i) => {
+        const Leaderboard = this.state.board.map((e, i) => {
             return (< tr key={i}>
-                <th>{e.id}</th>
-                <th>{e.username}</th>
-                <th>{e.name}</th>
-                <th>{e.email}</th>
-                <th>{e.age}</th>
+                <td className='board-data'>{e.id}</td>
+                <td className='board-data'>{e.score}</td>
+                <td className='board-data'>{e.player.username}</td>
+                <td className='board-data'>{e.game.name}</td>
             </tr>
             )
         })
@@ -40,27 +44,28 @@ class Leaderboard extends React.Component {
 
                 <div className='spacer'>
                 </div>
-                <div id='footer'>
-                    <hr />
-
-                    <p>Modul 295 & 294</p>
-                    <p>Von: Lucas Colaço</p>
-                    <hr />
+                <div className='board-header'>
+                    <table cellPadding={0} cellSpacing={0} border="0">
+                        <thead>
+                            <tr>
+                                <th className="board-titles">Rank</th>
+                                <th className="board-titles">Score</th>
+                                <th className="board-titles">Player</th>
+                                <th className="board-titles">Game</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>age</th>
-                        </tr>
-                    </thead>
-                    <tbody>{result}</tbody>
-                </table>
+                <div className="board-content">
+                    <table cellPadding={0} cellSpacing={0} border="0">
+                        <tbody>{Leaderboard}</tbody>
+                    </table>
+                </div>
             </>
+
+
         )
+
     }
 }
 
