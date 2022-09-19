@@ -1,5 +1,6 @@
 package ch.wiss.sq2c.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,6 +80,7 @@ public class PlayerController {
     /*
      * Delete Player with the ID
      */
+
     @DeleteMapping(path = "/del/")
     public @ResponseBody ResponseEntity<String> delPlayer(@RequestParam Integer id) {
         System.out.println(id);
@@ -93,12 +95,31 @@ public class PlayerController {
      * Get ONE Player using username
      */
     @GetMapping(path = "/one/")
-    public @ResponseBody Optional<Player> getPlayer(@RequestParam String username) {
+    public @ResponseBody Optional<Player> getPlayerUsername(@RequestParam String username) {
         System.out.println("Find 1 Player Request");
 
         List<Player> players = playerRepository.findByUsernameContaining(username);
 
         return players.stream().findFirst();
+    }
+
+    /*
+     * Get ONE player by Email
+     */
+    @GetMapping(path = "/email/")
+    public @ResponseBody ResponseEntity<String> getPlayerEmail(@Valid @RequestBody Player player) {
+        System.out.println("Find 1 Player Request");
+        List<Player> players = playerRepository.findByEmailContaining(player.email);
+        if (players != null) {
+            List<Player> pwPlayer = playerRepository.findByPasswordContaining(player.password);
+            if (pwPlayer != null) {
+                return ResponseEntity.ok("You succesefully loged in");
+            } else {
+                return ResponseEntity.badRequest("Password is not valid");
+            }
+        } else {
+            return ResponseEntity.ok("Email is not valid");
+        }
     }
 
     /*

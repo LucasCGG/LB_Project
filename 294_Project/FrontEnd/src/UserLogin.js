@@ -8,6 +8,7 @@ class UserLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: [],
             email: "" ,
             password: '',
         }
@@ -23,15 +24,26 @@ class UserLogin extends React.Component {
     handlePassword(event) {
         this.setState({ password: event.target.value });
     }
+
+    componentDidMount() {
+        if (this.state.board == null || this.state.board.length == 0) {
+            fetch("http://localhost:8080/Player/One")
+                .then(response => response.json())
+                .then(data => this.setState({ board: data }));
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault();
+
 
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.state)
-        }
-        fetch("http://localhost:8080/Player/add/", requestOptions)
+        };
+
+        fetch("http://localhost:8080/login", requestOptions)
             .then(response => response.json())
             .then(json => {
                 console.log(json.data);
