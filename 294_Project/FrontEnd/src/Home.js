@@ -7,15 +7,15 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null
+            appState: props.appState
         }
     }
 
     render() {
         const player = App.state;
         console.log(App.state);
-        if (App.state.logedIn === true) {
-            if (this.state.username === null) {
+        if (this.state.appState.logedIn !== true) {
+            if (this.state.appState.username === "") {
                 return (
                     <>
                         <h1>
@@ -36,28 +36,29 @@ class Home extends React.Component {
                         </div>
                     </>
                 )
-            } else {
-                return (
-                    <>
-                        <h1>
-                            Wilkommen, {this.state.username}
-                        </h1>
-                        <h2>
-                            {player}
-                        </h2>
-
-                        <div className='spacer'>
-
-                        </div>
-                        <div id='footer'>
-                            <hr />
-                            <p>Modul 295 & 294</p>
-                            <p>Von: Lucas Colaço</p>
-                            <hr />
-                        </div>
-                    </>
-                )
             }
+        } else {
+            return (
+                <>
+                    <h1>
+                        Wilkommen, {this.state.appState.username}
+                    </h1>
+                    <h2>
+                        {player}
+                    </h2>
+
+                    <div className='spacer'>
+
+                    </div>
+                    <div id='footer'>
+                        <hr />
+                        <p>Modul 295 & 294</p>
+                        <p>Von: Lucas Colaço</p>
+                        <hr />
+                    </div>
+                </>
+            )
+
         }
     }
 }

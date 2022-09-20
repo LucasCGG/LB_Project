@@ -22,29 +22,33 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state={
-      logedIn:true,
-      user_id:null,
-      username:null,
-      name:null,
-      email:null,
-      age:null
+      logedIn:false,
+      user_id:"",
+      username:"",
+      name:"",
+      email:"",
+      age:""
     }
   }
+
+ changeState = (x) =>{
+  this.setState({...x})
+ }
+
  render() {
      return (
       <div>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Home appState={this.state} />} />
           <Route path="About" element={<About />} />
           <Route path="Leaderboard" element={<Leaderboard />} />
           <Route path='Snake' element={<Snake />} />
           <Route path="UserRegister" element={<UserRegister />} />
-          <Route path="UserLogin" element={<UserLogin />} />
+          <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-      
       </div>
     );
   }

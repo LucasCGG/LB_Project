@@ -14,7 +14,7 @@ class UserLogin extends React.Component {
             tempPW: '',
             ok: '',
         }
-
+        this.changeState = props.changeState;
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -86,15 +86,18 @@ class UserLogin extends React.Component {
                 body: JSON.stringify(this.state)
             };
 
+            const test = document.getElementById("test");
+
             fetch("http://localhost:8080/Player/login/?email="+this.state.email+"&password="+this.state.password, requestOptions)
                 .then(response => response.json())
                 .then(json => {
                     console.log(json.data);
+                    console.log()
+
+                    this.changeState({logedIn: true})
                 });        
             
-            App.setState({
-                logedIn: true
-            })
+                
         }
     }
 
@@ -144,6 +147,7 @@ class UserLogin extends React.Component {
                                 Log In
                             </div>
                         </button>
+                        <h3 id="test">Test</h3>
                     </div>
                 </form>
             </>
