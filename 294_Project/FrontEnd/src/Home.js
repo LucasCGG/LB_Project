@@ -1,30 +1,64 @@
 import React from 'react';
+import App from './App';
 
 import './Styles/Home.css'
 
 class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: null
+        }
     }
 
     render() {
-        return (
-            <>
-                <h1>
-                    Wilkommen zu meinem Projekt!
-                </h1>
+        const player = App.state;
+        console.log(App.state);
+        if (App.state.logedIn === true) {
+            if (this.state.username === null) {
+                return (
+                    <>
+                        <h1>
+                            Wilkommen zu meinem Projekt
+                        </h1>
+                        <h2>
+                            {player}
+                        </h2>
 
-                <div className='spacer'>
+                        <div className='spacer'>
 
-                </div>
-                <div id='footer'>
-                    <hr />
-                    <p>Modul 295 & 294</p>
-                    <p>Von: Lucas Colaço</p>
-                    <hr />
-                </div>
-            </>
-        )
+                        </div>
+                        <div id='footer'>
+                            <hr />
+                            <p>Modul 295 & 294</p>
+                            <p>Von: Lucas Colaço</p>
+                            <hr />
+                        </div>
+                    </>
+                )
+            } else {
+                return (
+                    <>
+                        <h1>
+                            Wilkommen, {this.state.username}
+                        </h1>
+                        <h2>
+                            {player}
+                        </h2>
+
+                        <div className='spacer'>
+
+                        </div>
+                        <div id='footer'>
+                            <hr />
+                            <p>Modul 295 & 294</p>
+                            <p>Von: Lucas Colaço</p>
+                            <hr />
+                        </div>
+                    </>
+                )
+            }
+        }
     }
 }
 

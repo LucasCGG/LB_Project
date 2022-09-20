@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.wiss.sq2c.Player;
 import ch.wiss.sq2c.Sq2cApplication;
+import ch.wiss.sq2c.Exceptions.UserInvalid;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
 @CrossOrigin
@@ -37,49 +38,25 @@ public class PlayerController {
      */
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody Player newPlayer) {
-        String confirmedEmail;
-        boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
-        if (isOk) {
-            confirmedEmail = newPlayer.email;
-        } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid Email... Please provide a valide E-Mail");
+        System.out.println("Adding Player...");
+        try {
+            String confirmedEmail;
+            boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
+            if (isOk) {
+                confirmedEmail = newPlayer.email;
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body("Invalid Email... Please provide a valide E-Mail");
+            }
+            newPlayer.email = confirmedEmail;
+
+            playerRepository.save(newPlayer);
+        } catch (Exception ex) {
+            throw new UserInvalid(newPlayer.username);
         }
-        newPlayer.email = confirmedEmail;
-        playerRepository.save(newPlayer);
+
         return ResponseEntity.ok("User is valid");
     }
-    /*
-     * public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody
-     * Player player, @RequestParam String Name,
-     * 
-     * @RequestParam String Username,
-     * 
-     * @RequestParam String email, @RequestParam Integer age) {
-     * String confirmedEmail;
-     * boolean isOk = email.indexOf("@") != -1 ? true : false;
-     * if (isOk) {
-     * confirmedEmail = email;
-     * } else {
-     * return ResponseEntity.status(HttpStatus.FORBIDDEN).
-     * body("Invalid Email... Please provide a valide E-Mail");
-     * }
-     * 
-     * Player p = new Player();
-     * p.setName(Name);
-     * p.setUserName(Username);
-     * p.setEmail(confirmedEmail);
-     * p.setAge(age);
-     * playerRepository.save(p);
-     * 
-     * return ResponseEntity
-     * .ok("User '" + Username + "' identified by E-Mailadress '" + email +
-     * "' has been created");
-     * }
-     */
-
-    /*
-     * Delete Player with the ID
-     */
 
     @DeleteMapping(path = "/del/")
     public @ResponseBody ResponseEntity<String> delPlayer(@RequestParam Integer id) {
@@ -104,19 +81,26 @@ public class PlayerController {
     }
 
     /*
+     * Get ONE Player using username
+     */
+    @GetMapping(path = "/one/Email")
+    public @ResponseBody Optional<Player> getPlayerEmail(@RequestParam String email) {
+        System.out.println("Find 1 Player Request");
+
+        List<Player> players = playerRepository.findByEmailContaining(email);
+
+        return players.stream().findFirst();
+    }
+
+    /*
      * Get ONE player by Email
      */
-    @GetMapping(path = "/email/")
+    @PostMapping(path = "/email/")
     public @ResponseBody ResponseEntity<String> getPlayerEmail(@Valid @RequestBody Player player) {
         System.out.println("Find 1 Player Request");
         List<Player> players = playerRepository.findByEmailContaining(player.email);
         if (players != null) {
-            List<Player> pwPlayer = playerRepository.findByPasswordContaining(player.password);
-            if (pwPlayer != null) {
-                return ResponseEntity.ok("You succesefully loged in");
-            } else {
-                return ResponseEntity.badRequest("Password is not valid");
-            }
+            return ResponseEntity.ok("Email is valid");
         } else {
             return ResponseEntity.ok("Email is not valid");
         }
@@ -125,6 +109,25 @@ public class PlayerController {
     /*
      * Get ALL Players
      */
+
+    @PostMapping(path = "/login/")
+    public @ResponseBody ResponseEntity<String> login(@Valid @RequestParam String email,
+            @RequestParam Integer password) {
+        System.out.println("login in");
+        List<Player> players = playerRepository.findByEmailContaining(email);
+        if (players != null) {
+            var data = players.get(0).password;
+            if (password.toString().equals(data.toString())) {
+                return ResponseEntity.ok("Login was succesfull");
+            } else {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Password or Email is not correct");
+            }
+        } else {
+            return null;
+        }
+
+    }
+
     @GetMapping(path = "/all/")
     public @ResponseBody Iterable<Player> getAllPlayers() {
         System.out.println("FindAll Player Request");

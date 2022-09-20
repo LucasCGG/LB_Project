@@ -1,16 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import App from './Snake-game';
 
 
 import './Styles/User.css'
-
 
 class UserLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: [],
-            email: "" ,
+            email: "",
             password: '',
+            tempPW: '',
+            ok: '',
         }
 
         this.handleEmail = this.handleEmail.bind(this);
@@ -19,35 +21,81 @@ class UserLogin extends React.Component {
     }
 
     handleEmail(event) {
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        }
+
+        fetch("http://localhost:8080/Player/one/Email/?email=" + event.target.value, requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                const eBox = document.getElementById("emailBox");
+
+
+                const rand1 = document.querySelector("#BoxTopEmail");
+                const rand2 = document.querySelector("#BoxRightEmail");
+                const rand3 = document.querySelector('#BoxFrontEmail');
+                let data;
+                if (json != null) {
+                    data = json.email.toLowerCase();
+                }
+                let email = event.target.value.toLowerCase();
+
+                if (data == email) {
+                    rand1.style.background = "green";
+                    rand2.style.background = "green";
+                    rand3.style.background = "green";
+
+                    this.emailValid = false;
+
+
+                }
+                else {
+                    rand1.style.background = "rgba(255, 255, 255, 0.5)";
+                    rand2.style.background = "rgba(255, 255, 255, 0.5)";
+                    rand3.style.background = "rgba(255, 255, 255, 0.5)";
+
+                    this.emailValid = true;
+                    this.setState({
+                        tempPW: json.password
+                    })
+                }
+            });
+
         this.setState({ email: event.target.value });
     }
-    handlePassword(event) {
-        this.setState({ password: event.target.value });
-    }
 
-    componentDidMount() {
-        if (this.state.board == null || this.state.board.length == 0) {
-            fetch("http://localhost:8080/Player/One")
-                .then(response => response.json())
-                .then(data => this.setState({ board: data }));
+
+
+    handlePassword(event) {
+        if (event.target.value == this.state.tempPW) {
+            this.setState({
+                ok: true
+            })
         }
+        this.setState({ password: event.target.value });
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
+        if (this.state.ok == true) {
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(this.state)
+            };
 
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state)
-        };
-
-        fetch("http://localhost:8080/login", requestOptions)
-            .then(response => response.json())
-            .then(json => {
-                console.log(json.data);
-            });
+            fetch("http://localhost:8080/Player/login/?email="+this.state.email+"&password="+this.state.password, requestOptions)
+                .then(response => response.json())
+                .then(json => {
+                    console.log(json.data);
+                });        
+            
+            App.setState({
+                logedIn: true
+            })
+        }
     }
 
     render() {
@@ -58,15 +106,15 @@ class UserLogin extends React.Component {
                         <h1 className="form-title">
                             Login
                         </h1>
-                        <div class='control block-cube block-input'>
+                        <div class='control block-cube block-input' id="eBox">
                             <input placeholder='E-Mail' type="text" value={this.state.email} onChange={this.handleEmail}></input>
-                            <div class='bg-top'>
+                            <div class='bg-top' id="BoxTopEmail">
                                 <div class='bg-inner'></div>
                             </div>
-                            <div class='bg-right'>
+                            <div class='bg-right' id="BoxRightEmail">
                                 <div class='bg-inner'></div>
                             </div>
-                            <div class='bg'>
+                            <div class='bg' id="BoxFrontEmail">
                                 <div class='bg-inner'></div>
                             </div>
                         </div>
