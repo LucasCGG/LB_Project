@@ -4,7 +4,7 @@ import {
   Route,
   Outlet
 } from 'react-router-dom'
-import React, { useState } from 'react';
+import React from 'react';
 
 //import Layout from './App.js'
 import NotFound from './NotFound';
@@ -18,37 +18,47 @@ import Leaderboard from './Leaderboard';
 import UserLogin from './UserLogin';
 
 
-class App extends React.Component{
-  constructor(props){
+class App extends React.Component {
+  constructor(props) {
     super(props);
-    this.state={
-      logedIn:false,
-      user_id:"",
-      username:"",
-      name:"",
-      email:"",
-      age:""
+    this.state = {
+      logedIn: false,
+      user_id: "",
+      username: "",
+      name: "",
+      email: "",
+      age: "",
+      score:"",
+      game_id:"",
     }
+
+    this.changeState = this.changeState.bind(this);
   }
 
- changeState = (x) =>{
-  this.setState({...x})
- }
+  changeState(x) {
+    this.setState({...x});
+    console.log(this.state);
+    this.checkLogin();
+  }
 
- render() {
-     return (
+
+
+
+  render() {
+    return (
       <div>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home appState={this.state} />} />
-          <Route path="About" element={<About />} />
-          <Route path="Leaderboard" element={<Leaderboard />} />
-          <Route path='Snake' element={<Snake />} />
-          <Route path="UserRegister" element={<UserRegister />} />
-          <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home appState={this.state} />} />
+            <Route path="About" element={<About />} />
+            <Route path="Leaderboard" element={<Leaderboard appState={this.state}/>} />
+            <Route path='Snake' element={<Snake changeState={this.changeState}/>} />
+            <Route path="UserRegister" element={<UserRegister />} />
+            <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
+            <Route path="/" />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     );
   }
@@ -64,7 +74,7 @@ function Layout() {
         </header>
       </div>
       <footer className='App-Footer'>
-        <img src={logo}></img>
+        <img src={logo} alt="Logo"></img>
         <a className='footer_text'>Lucas Colaço</a>
         <a className='email'>colaco.lucasgabriel@gmail.com</a>
         <a className='website' href='https://lucascolaco.com/'>lucascolaco.com</a>
@@ -74,4 +84,4 @@ function Layout() {
   );
 }
 
-  export default App;
+export default App;

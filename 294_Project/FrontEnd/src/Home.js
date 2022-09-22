@@ -1,5 +1,4 @@
 import React from 'react';
-import App from './App';
 
 import './Styles/Home.css'
 
@@ -12,40 +11,14 @@ class Home extends React.Component {
     }
 
     render() {
-        const player = App.state;
-        console.log(App.state);
-        if (this.state.appState.logedIn !== true) {
-            if (this.state.appState.username === "") {
-                return (
-                    <>
-                        <h1>
-                            Wilkommen zu meinem Projekt
-                        </h1>
-                        <h2>
-                            {player}
-                        </h2>
-
-                        <div className='spacer'>
-
-                        </div>
-                        <div id='footer'>
-                            <hr />
-                            <p>Modul 295 & 294</p>
-                            <p>Von: Lucas Colaço</p>
-                            <hr />
-                        </div>
-                    </>
-                )
-            }
-        } else {
+        console.log(this.state.appState);
+        if (this.state.appState.logedIn === false) {
             return (
                 <>
                     <h1>
-                        Wilkommen, {this.state.appState.username}
+                        Wilkommen zu meinem Projekt
                     </h1>
-                    <h2>
-                        {player}
-                    </h2>
+
 
                     <div className='spacer'>
 
@@ -58,9 +31,29 @@ class Home extends React.Component {
                     </div>
                 </>
             )
+        }
+        else{
+            return (
+                <>
+                    <h1>
+                        Wilkommen {this.state.appState.username}
+                    </h1>
 
+
+                    <div className='spacer'>
+
+                    </div>
+                    <div id='footer'>
+                        <hr />
+                        <p>Modul 295 & 294</p>
+                        <p>Von: Lucas Colaço</p>
+                        <hr />
+                    </div>
+                </>
+            )
         }
     }
 }
+
 
 export default Home;

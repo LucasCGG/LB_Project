@@ -1,45 +1,48 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import "./Styles/Snake.css"
 
-
-const  HEIGHT = 10;
-const  WIDTH  = 10;
+const HEIGHT = 10;
+const WIDTH = 10;
 
 // mapping keycode  for changing direction
-const LEFT  = 37; 
-const UP    = 38;
-const RIGHT = 39; 
-const DOWN  = 40;
-const STOP  = 32; /* [space] used for pause */
+const LEFT = 37;
+const UP = 38;
+const RIGHT = 39;
+const DOWN = 40;
+const STOP = 32; /* [space] used for pause */
 
 
 const getRandom = () => {
-    return  { 
-        x: Math.floor(Math.random() *WIDTH),
-        y: Math.floor(Math.random() *HEIGHT) 
+    return {
+        x: Math.floor(Math.random() * WIDTH),
+        y: Math.floor(Math.random() * HEIGHT)
     }
 }
 
 
-const emptyRows = () => [...Array(WIDTH)].map((_) => [...Array(HEIGHT)].map((_)=> 'grid-item'));
+const emptyRows = () => [...Array(WIDTH)].map((_) => [...Array(HEIGHT)].map((_) => 'grid-item'));
 
 
-const increaseSpeed = (speed) => speed - 5 *(speed > 5)
+const increaseSpeed = (speed) => speed - 5 * (speed > 5)
 
 
 const initialState = {
+    game_id:"",
+    appState:"",
     score: 0,
     rows: emptyRows(),
     snake: [getRandom()],
     food: getRandom(),
     direction: STOP,
-    speed: 125, 
+    speed: 125
 }
+
+
 
 class App extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = initialState;
     }
 
@@ -55,102 +58,106 @@ class App extends Component {
 
     moveSnake = () => {
         let snakeCopy = [...this.state.snake];
-        let head  =  {...snakeCopy[snakeCopy.length-1]};
+        let head = { ...snakeCopy[snakeCopy.length - 1] };
         switch (this.state.direction) {
-            case LEFT:  head.y += -1; break;    
-            case UP:    head.x += -1; break;
-            case RIGHT: head.y += 1;  break;
-            case DOWN:  head.x += 1;  break;
+            case LEFT: head.y += -1; break;
+            case UP: head.x += -1; break;
+            case RIGHT: head.y += 1; break;
+            case DOWN: head.x += 1; break;
             default: return;
         }
         /* keep the value within range of 0 to HEIGHT */
-        head.x += HEIGHT * ((head.x<0)-(head.x>=HEIGHT));
-        head.y += WIDTH * ((head.y<0)-(head.y>=WIDTH));
-        
-        snakeCopy.push(head); 
+        head.x += HEIGHT * ((head.x < 0) - (head.x >= HEIGHT));
+        head.y += WIDTH * ((head.y < 0) - (head.y >= WIDTH));
+
+        snakeCopy.push(head);
         snakeCopy.shift()
         this.setState({
             snake: snakeCopy,
             head: head
         });
-        this.update(); 
-    }   
-    
+        this.update();
+    }
+
     isEaten() {
-        let snakeCopy  = [...this.state.snake];
-        let head  =  {...snakeCopy[snakeCopy.length-1]};
+        let snakeCopy = [...this.state.snake];
+        let head = { ...snakeCopy[snakeCopy.length - 1] };
         let food = this.state.food;
-        if ((head.x === food.x) &&(head.y === food.y)) {
+        if ((head.x === food.x) && (head.y === food.y)) {
             snakeCopy.push(head);
             this.setState({
-                score: this.state.score+1,
+                score: this.state.score + 1,
                 snake: snakeCopy,
                 food: getRandom(),
-                speed: increaseSpeed(this.state.speed) 
+                speed: increaseSpeed(this.state.speed)
             });
-        } 
+        }
     }
 
     update() {
-        let newRows = emptyRows(); 
+        let newRows = emptyRows();
         this.state.snake.forEach(element => newRows[element.x][element.y] = 'snake')
         newRows[this.state.food.x][this.state.food.y] = 'food';
-        this.setState({rows: newRows});
+        this.setState({ rows: newRows });
     }
 
     isCollapsed = () => {
         let snake = this.state.snake;
-        let head  = {...snake[snake.length-1]} 
-        for (let i=0; i<snake.length-3; i++) {
-            if ((head.x === snake[i].x) &&(head.y === snake[i].y)) {
+        let head = { ...snake[snake.length - 1] }
+        for (let i = 0; i < snake.length - 3; i++) {
+            if ((head.x === snake[i].x) && (head.y === snake[i].y)) {
                 this.setState(initialState);
-            }
+                this.props.changeState({
+                    game_id: this.state.game_id,
+                    score: this.state.score
+                });
         }
     }
+}
 
-    changeDirection = ({keyCode}) => { 
-        let direction = this.state.direction;
-        switch (keyCode) {
-            case LEFT:
-                direction = (direction === RIGHT)? RIGHT: LEFT;
-                break;
-            case RIGHT:
-                direction = (direction === LEFT)? LEFT: RIGHT;
-                break;
-            case UP:
-                direction = (direction === DOWN)? DOWN: UP;
-                break;
-            case DOWN:
-                direction = (direction === UP)? UP: DOWN;
-                break;
-            case STOP:
-                direction = STOP;
-                break;
-            default:
-                break;
-        }
-        this.setState({
-            direction: direction
-        });
-    }    
+changeDirection = ({ keyCode }) => {
+    let direction = this.state.direction;
+    switch (keyCode) {
+        case LEFT:
+            direction = (direction === RIGHT) ? RIGHT : LEFT;
+            break;
+        case RIGHT:
+            direction = (direction === LEFT) ? LEFT : RIGHT;
+            break;
+        case UP:
+            direction = (direction === DOWN) ? DOWN : UP;
+            break;
+        case DOWN:
+            direction = (direction === UP) ? UP : DOWN;
+            break;
+        case STOP:
+            direction = STOP;
+            break;
+        default:
+            break;
+    }
+    this.setState({
+        direction: direction
+    });
+}
 
-   
-    render() {
-        const displayRows = this.state.rows.map((row, i) => row.map((value, j) =>  <div name={`${i}=${j}`} className={value} />))
-        return (
-            <div className="a text" >
-                <h1> Snake  v0.1.1</h1>
-                <h3> Score: {this.state.score}</h3>
-                <ul>
-                    <li>Press "Space" to pause the game.</li>
-                    <li>Press "Arrow keys" to change direction/unpause/start.</li>
-                </ul>
-                <div className="snake-container">
-                    <div className="grid">{displayRows}</div>
-                </div>
+
+render() {
+    const displayRows = this.state.rows.map((row, i) => row.map((value, j) => <div name={`${i}=${j}`} className={value} />))
+    return (
+        <div className="a text" >
+            <h1> Snake  v0.1.1</h1>
+            <h3> Score: {this.state.score}</h3>
+            <ul>
+                <li>Press "Space" to pause the game.</li>
+                <li>Press "Arrow keys" to change direction/unpause/start.</li>
+            </ul>
+            <div className="snake-container">
+                <div className="grid">{displayRows}</div>
             </div>
-        )    
-    }
+        </div>
+    )
+}
 }
 
 

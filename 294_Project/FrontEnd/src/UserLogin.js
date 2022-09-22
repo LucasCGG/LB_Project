@@ -1,6 +1,4 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import App from './Snake-game';
 
 
 import './Styles/User.css'
@@ -14,10 +12,10 @@ class UserLogin extends React.Component {
             tempPW: '',
             ok: '',
         }
-        this.changeState = props.changeState;
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
     }
 
     handleEmail(event) {
@@ -29,7 +27,6 @@ class UserLogin extends React.Component {
         fetch("http://localhost:8080/Player/one/Email/?email=" + event.target.value, requestOptions)
             .then(response => response.json())
             .then(json => {
-                const eBox = document.getElementById("emailBox");
 
 
                 const rand1 = document.querySelector("#BoxTopEmail");
@@ -41,7 +38,7 @@ class UserLogin extends React.Component {
                 }
                 let email = event.target.value.toLowerCase();
 
-                if (data == email) {
+                if (data === email) {
                     rand1.style.background = "green";
                     rand2.style.background = "green";
                     rand3.style.background = "green";
@@ -68,7 +65,7 @@ class UserLogin extends React.Component {
 
 
     handlePassword(event) {
-        if (event.target.value == this.state.tempPW) {
+        if (event.target.value === this.state.tempPW) {
             this.setState({
                 ok: true
             })
@@ -79,25 +76,42 @@ class UserLogin extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if (this.state.ok == true) {
-            const requestOptions = {
+        if (this.state.ok === true) {
+            const requestOptionsPost = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(this.state)
             };
 
-            const test = document.getElementById("test");
+            const requestOptionsGet = {
+                method: "GET",
+                headers: { "Content-Type": "application/json" }
+            }
 
-            fetch("http://localhost:8080/Player/login/?email="+this.state.email+"&password="+this.state.password, requestOptions)
-                .then(response => response.json())
+            fetch("http://localhost:8080/Player/login/?email=" + this.state.email + "&password=" + this.state.password, requestOptionsPost)
+                .then(response => response)
                 .then(json => {
                     console.log(json.data);
                     console.log()
 
-                    this.changeState({logedIn: true})
-                });        
-            
-                
+                    if (json.status === 200) {
+
+                        fetch("http://localhost:8080/Player/one/Email/?email=" + this.state.email, requestOptionsGet)
+                            .then(response => response.json())
+                            .then(json => {
+                                this.props.changeState({
+                                    logedIn: true,
+                                    user_id: json.id,
+                                    username: json.username,
+                                    name: json.name,
+                                    email: json.email,
+                                });
+                            });
+
+
+
+                    }
+                });
         }
     }
 
@@ -147,7 +161,6 @@ class UserLogin extends React.Component {
                                 Log In
                             </div>
                         </button>
-                        <h3 id="test">Test</h3>
                     </div>
                 </form>
             </>

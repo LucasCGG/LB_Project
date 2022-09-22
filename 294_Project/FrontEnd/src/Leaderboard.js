@@ -6,13 +6,14 @@ class Leaderboard extends React.Component {
         super(props);
 
         this.state = {
-            board: []
+            board: [],
+            appState: props.appState
         };
     }
 
-    resizeBoard() {
 
-    }
+    
+    
 
 
     componentDidMount() {

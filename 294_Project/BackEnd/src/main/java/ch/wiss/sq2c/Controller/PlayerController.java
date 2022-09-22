@@ -1,6 +1,5 @@
 package ch.wiss.sq2c.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,24 +37,32 @@ public class PlayerController {
      */
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody Player newPlayer) {
+        List<Player> players = playerRepository.findByEmailContaining(newPlayer.email);
         System.out.println("Adding Player...");
-        try {
-            String confirmedEmail;
-            boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
-            if (isOk) {
-                confirmedEmail = newPlayer.email;
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                        .body("Invalid Email... Please provide a valide E-Mail");
-            }
-            newPlayer.email = confirmedEmail;
+        System.out.println(players);
+        if (players.isEmpty()) {
+            try {
+                String confirmedEmail;
+                boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
+                if (isOk) {
+                    confirmedEmail = newPlayer.email;
+                } else {
+                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .body("Invalid Email... Please provide a valide E-Mail");
+                }
+                newPlayer.email = confirmedEmail;
 
-            playerRepository.save(newPlayer);
-        } catch (Exception ex) {
-            throw new UserInvalid(newPlayer.username);
+                playerRepository.save(newPlayer);
+            } catch (Exception ex) {
+                throw new UserInvalid(newPlayer.username);
+            }
+
+            return ResponseEntity.ok("User is valid");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body("E-Mail is already in use. Please provide a different E-mail");
         }
 
-        return ResponseEntity.ok("User is valid");
     }
 
     @DeleteMapping(path = "/del/")
@@ -83,6 +90,7 @@ public class PlayerController {
     /*
      * Get ONE Player using username
      */
+    @CrossOrigin
     @GetMapping(path = "/one/Email")
     public @ResponseBody Optional<Player> getPlayerEmail(@RequestParam String email) {
         System.out.println("Find 1 Player Request");
@@ -95,6 +103,7 @@ public class PlayerController {
     /*
      * Get ONE player by Email
      */
+    @CrossOrigin
     @PostMapping(path = "/email/")
     public @ResponseBody ResponseEntity<String> getPlayerEmail(@Valid @RequestBody Player player) {
         System.out.println("Find 1 Player Request");
@@ -109,7 +118,7 @@ public class PlayerController {
     /*
      * Get ALL Players
      */
-
+    @CrossOrigin
     @PostMapping(path = "/login/")
     public @ResponseBody ResponseEntity<String> login(@Valid @RequestParam String email,
             @RequestParam Integer password) {
