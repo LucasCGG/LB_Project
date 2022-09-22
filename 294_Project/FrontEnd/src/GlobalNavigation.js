@@ -7,13 +7,25 @@ import Navigation from './Styles/GlobalNavigation.css'
 class GlobalNavigation extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      logedIn: false,
+    this.state={
+      logeIn: false,
     }
   }
 
+  isLogedIn = () => {
+    this.setStated({
+      logedIn:true
+    })
+  }
+
+  isLogedOut = () => {
+    this.setStated({
+      logedIn:false
+    })
+  }
+
   render() {
-    if (this.state.logedIn) {
+    if (!this.state.logeIn) {
       return (
         <><nav>
           <ul>
@@ -26,10 +38,16 @@ class GlobalNavigation extends React.Component {
             <li>
               <Link to="/About">About this Project</Link>
             </li>
-            <li>
-              <Link to="/Snake">Snake</Link>
-            </li>
-            <div class="dropdown">
+            <div className='dropdown'>
+              <li className='topnav'>
+                <Link className='dropdown-toggle' to="/Games">Games</Link>
+                <div className='dropdown-content'>
+                  <Link to="/Snake">Snake</Link>
+                </div>
+              </li>
+            </div>
+
+            <div className="dropdown">
               <li className='topnav-right'>
                 <a class="dropdown-toggle">User</a>
                 <div class="dropdown-content">
@@ -42,7 +60,7 @@ class GlobalNavigation extends React.Component {
         </nav></>
       )
     }
-    else if(!this.state.logedIn){
+    else if (this.state.logeIn) {
       return (
         <><nav>
           <ul>
@@ -55,9 +73,10 @@ class GlobalNavigation extends React.Component {
             <li>
               <Link to="/About">About this Project</Link>
             </li>
-            <li>
+            <div class="dropdown-content">
+              <Link to="/Games">Games</Link>
               <Link to="/Snake">Snake</Link>
-            </li>
+            </div>
             <div class="dropdown">
               <li className='topnav-right'>
                 <a class="dropdown-toggle">User</a>

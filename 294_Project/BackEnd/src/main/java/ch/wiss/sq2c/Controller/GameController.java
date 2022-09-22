@@ -40,17 +40,14 @@ public class GameController {
         return ResponseEntity.ok("Game is valid and has been uploaded.");
     }
 
-    /*
-     * @GetMapping(path = "/one/")
-     * public @ResponseBody Optional<Game> getPlayerUsername(@RequestParam String
-     * username) {
-     * System.out.println("Find 1 Player Request");
-     * 
-     * List<Game> players = gameRepository.findByNameContaining(username);
-     * 
-     * return players.stream().findFirst();
-     * }
-     */
+    @GetMapping(path = "/one/")
+    public @ResponseBody Optional<Game> getGameByName(@RequestParam String name) {
+        System.out.println("Find 1 Game Request");
+
+        List<Game> games = gameRepository.findByNameContaining(name);
+
+        return games.stream().findFirst();
+    }
 
     /**
      * This deletes a game

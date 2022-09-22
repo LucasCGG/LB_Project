@@ -10,8 +10,12 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String Name;
-    private String Description;
+    private String name;
+    private String description;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Player player;
 
     // SETTER
     public void setID(int x) {
@@ -19,11 +23,15 @@ public class Game {
     }
 
     public void setName(String x) {
-        Name = x;
+        name = x;
+    }
+
+    public void setPlayer(Player p) {
+        player = p;
     }
 
     public void setDescription(String x) {
-        Description = x;
+        description = x;
     }
 
     // GETTER
@@ -32,11 +40,15 @@ public class Game {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public String getDescription() {
-        return Description;
+        return description;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }

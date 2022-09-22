@@ -56,6 +56,12 @@ nav li a:hover {
   width: 100%;
 }
 
+#footer{
+  display: block;
+  position: absolute;
+  top:20%;
+}
+
 footer img {
   position: absolute;
   max-height: 1.5rem;

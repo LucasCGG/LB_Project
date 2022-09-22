@@ -6,7 +6,6 @@ import {
 } from 'react-router-dom'
 import React from 'react';
 
-//import Layout from './App.js'
 import NotFound from './NotFound';
 import GlobalNavigation from './GlobalNavigation';
 import Home from './Home';
@@ -16,6 +15,7 @@ import Snake from './Snake-game';
 import logo from './images/logo/Logo1.png';
 import Leaderboard from './Leaderboard';
 import UserLogin from './UserLogin';
+import Games from './Games';
 
 
 class App extends React.Component {
@@ -31,17 +31,14 @@ class App extends React.Component {
       score:"",
       game_id:"",
     }
-
+    
     this.changeState = this.changeState.bind(this);
   }
 
   changeState(x) {
     this.setState({...x});
     console.log(this.state);
-    this.checkLogin();
   }
-
-
 
 
   render() {
@@ -52,6 +49,7 @@ class App extends React.Component {
             <Route index element={<Home appState={this.state} />} />
             <Route path="About" element={<About />} />
             <Route path="Leaderboard" element={<Leaderboard appState={this.state}/>} />
+            <Route path="Games" element={<Games appState={this.state}/>}/>
             <Route path='Snake' element={<Snake changeState={this.changeState}/>} />
             <Route path="UserRegister" element={<UserRegister />} />
             <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />

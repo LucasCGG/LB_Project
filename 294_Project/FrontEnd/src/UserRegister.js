@@ -7,8 +7,6 @@ import './Styles/User.css'
 class UserRegister extends React.Component {
     constructor(props) {
         super(props);
-        var usernameValid;
-        var emailValid;
         this.state = {
             username: '',
             name: '',
@@ -41,7 +39,6 @@ class UserRegister extends React.Component {
                 const rand2 = document.querySelector("#BoxRightUsername");
                 const rand3 = document.querySelector('#BoxFrontUsername');
 
-                let data = json.username.toLowerCase();
                 let username = event.target.value.toLowerCase();
 
                 if (json.username === username) {
