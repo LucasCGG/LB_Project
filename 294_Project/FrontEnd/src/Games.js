@@ -15,7 +15,7 @@ class Games extends React.Component {
         this.handleGameDescription = this.handleGameDescription.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
-        }
+    }
 
     handleGameName(event) {
         var test = document.getElementById("input_G_Name");
@@ -58,7 +58,7 @@ class Games extends React.Component {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(this.state.game_name, this.state.description, this.state.appState.user_id)
-                
+
             }
             fetch("http://localhost:8080/game/add/", requestOptions)
                 .then(response => response.json())
@@ -69,7 +69,7 @@ class Games extends React.Component {
     }
 
 
-    handleSearch(event){
+    handleSearch(event) {
         var x = document.getElementById("input_search");
         const requestOptions = {
             method: "GET",
@@ -82,7 +82,7 @@ class Games extends React.Component {
                 x.innerHTML = json[0].name;
             });
 
-        this.setState({search: event.target.value});
+        this.setState({ search: event.target.value });
     }
 
 
@@ -139,13 +139,23 @@ class Games extends React.Component {
                     </div>
                     <div id='footer'>
                         <hr />
-                        <h2>Please Log in to add a game</h2>
+                        <h2>Please Log in or Register to add a game</h2>
+                        <div>
+                            <ul className="container-link">
+                                <Link to="/UserLogin">Log in</Link>
+                                <Link to="/UserRegister">Register</Link>
+                            </ul>
+                        </div>
                         <hr />
                         <hr />
                         <div className='games-container'>
+                            <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
+                            <p id="input_search"></p>
+                        </div>
+                        <div className='games-container'>
                             <div>
                                 <Link to="/Snake">Snake</Link>
-                                <img src="./images/Games/snake.jpg" />
+                                <img src="../public/img/Games/snake.jpg" />
                             </div>
                         </div>
                         <hr />

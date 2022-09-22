@@ -3,3 +3,4 @@ CREATE DATABASE Project_V01;
 USE Project_V01;
 
 select * from player;
+select * from game;
