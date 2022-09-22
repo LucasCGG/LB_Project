@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 import React from 'react';
 
+import Layout from './Layout';
 import NotFound from './NotFound';
 import GlobalNavigation from './GlobalNavigation';
 import Home from './Home';
@@ -37,15 +38,15 @@ class App extends React.Component {
 
   changeState(x) {
     this.setState({...x});
-    console.log(this.state);
   }
+
 
 
   render() {
     return (
       <div>
         <Routes>
-          <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Layout logedin={this.state.logedIn}/>}>
             <Route index element={<Home appState={this.state} />} />
             <Route path="About" element={<About />} />
             <Route path="Leaderboard" element={<Leaderboard appState={this.state}/>} />
@@ -62,24 +63,6 @@ class App extends React.Component {
   }
 }
 
-function Layout() {
-  return (
-    <div className="App">
-      <GlobalNavigation />
-      <div className="content">
-        <header className="App-header">
-          <Outlet />
-        </header>
-      </div>
-      <footer className='App-Footer'>
-        <img src={logo} alt="Logo"></img>
-        <a className='footer_text'>Lucas Colaço</a>
-        <a className='email'>colaco.lucasgabriel@gmail.com</a>
-        <a className='website' href='https://lucascolaco.com/'>lucascolaco.com</a>
-      </footer>
-    </div>
 
-  );
-}
 
 export default App;

@@ -2,6 +2,7 @@ package ch.wiss.sq2c.Controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -37,6 +38,7 @@ public class GameController {
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addGame(@Valid @RequestBody Game game) {
         gameRepository.save(game);
+        System.out.println("Game was Addet");
         return ResponseEntity.ok("Game is valid and has been uploaded.");
     }
 
@@ -47,6 +49,15 @@ public class GameController {
         List<Game> games = gameRepository.findByNameContaining(name);
 
         return games.stream().findFirst();
+    }
+
+    @GetMapping(path = "/search/")
+    public @ResponseBody Stream<Game> getGamesByName(@RequestParam String name) {
+        System.out.println("Find 1 Game Request");
+
+        List<Game> games = gameRepository.findByNameContaining(name);
+
+        return games.stream();
     }
 
     /**

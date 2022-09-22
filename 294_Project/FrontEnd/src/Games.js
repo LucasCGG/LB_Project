@@ -1,40 +1,42 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './images/Games/snake.jpg';
 import './Styles/Games.css';
 
 class Games extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game_name: '',
-            game_desc: '',
-            appState: this.props.appState
+            game_name: "",
+            description: "",
+            appState: this.props.appState,
+            search: "",
         }
         this.handleGameName = this.handleGameName.bind(this);
-    }
+        this.handleGameDescription = this.handleGameDescription.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+        }
 
     handleGameName(event) {
+        var test = document.getElementById("input_G_Name");
+
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         }
 
-        fetch("http://localhost:8080/Player/one/?username=" + event.target.value, requestOptions)
+        fetch("http://localhost:8080/game/one/?name=" + event.target.value, requestOptions)
             .then(response => response.json())
             .then(json => {
-                
-
                 let name = event.target.value.toLowerCase();
 
                 if (json.name === name) {
-
-                    this.usernameValid = false;
-
+                    test.style.backgroundColor = "red";
+                    this.gameNameValid = false;
                 }
                 else {
-                   
-                    this.usernameValid = true;
+                    test.style.backgroundColor = "green";
+                    this.gameNameValid = true;
                 }
             });
         this.setState({
@@ -43,18 +45,20 @@ class Games extends React.Component {
     }
 
     handleGameDescription(event) {
-        this.setState({
-            game_desc: event.target.value
-        });
+        console.log(this.state);
+        this.setState({ description: event.target.value });
     }
 
     handleSubmit(event) {
+        console.log("TEEEEEEEEEESTTTTTTTTTTTTTTTTTT");
+        console.log(this.gameNameValid);
         event.preventDefault();
-        if (this.usernameValid && this.emailValid) {
+        if (this.gameNameValid) {
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(this.state,)
+                body: JSON.stringify(this.state.game_name, this.state.description, this.state.appState.user_id)
+                
             }
             fetch("http://localhost:8080/game/add/", requestOptions)
                 .then(response => response.json())
@@ -63,6 +67,24 @@ class Games extends React.Component {
                 });
         }
     }
+
+
+    handleSearch(event){
+        var x = document.getElementById("input_search");
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        }
+
+        fetch("http://localhost:8080/game/search/?name=" + event.target.value, requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                x.innerHTML = json[0].name;
+            });
+
+        this.setState({search: event.target.value});
+    }
+
 
     render() {
         if (this.state.appState.logedIn) {
@@ -79,14 +101,26 @@ class Games extends React.Component {
                         <hr />
                         <div className="contact-us-container">
                             <div className="contact-us">
-                                <form>
+                                <form autoComplete='off' onSubmit={this.handleSubmit}>
                                     <label>
                                         Add your game
                                     </label>
-                                    <input placeholder="Name" required="" type="text" />
-                                    <input name="Description" placeholder="Game Description" type="text" />
-                                    <button type="button">Add Game</button>
+                                    <input id="input_G_Name" placeholder="Name" type="text" value={this.state.game_name} onChange={this.handleGameName} />
+                                    <input placeholder="Description" type="text" value={this.state.game_desc} onChange={this.handleGameDescription} />
+                                    <button type="submit">Add Game</button>
                                 </form>
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                        <div>
+                            <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
+                            <p id="input_search"></p>
+                        </div>
+                        <div className='games-container'>
+                            <div>
+                                <Link to="/Snake">Snake</Link>
+                                <img src="../public/img/Games/snake.jpg" />
                             </div>
                         </div>
                         <hr />
@@ -107,14 +141,14 @@ class Games extends React.Component {
                         <hr />
                         <h2>Please Log in to add a game</h2>
                         <hr />
-                        <hr/>
+                        <hr />
                         <div className='games-container'>
                             <div>
                                 <Link to="/Snake">Snake</Link>
-                                <img src="./images/Games/snake.jpg"/>
+                                <img src="./images/Games/snake.jpg" />
                             </div>
                         </div>
-                        <hr/>
+                        <hr />
                     </div>
                 </>
             )
