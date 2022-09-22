@@ -39,9 +39,9 @@ class UserRegister extends React.Component {
                 const rand2 = document.querySelector("#BoxRightUsername");
                 const rand3 = document.querySelector('#BoxFrontUsername');
 
-                let username = event.target.value.toLowerCase();
+                let name = event.target.value.toLowerCase();
 
-                if (json.username === username) {
+                if (json.username === name) {
                     rand1.style.background = "red";
                     rand2.style.background = "red";
                     rand3.style.background = "red";
@@ -52,7 +52,7 @@ class UserRegister extends React.Component {
                     this.usernameValid = false;
 
                 }
-                else {
+                else if(json.username == null || json.username != name){
                     rand1.style.background = "rgba(255, 255, 255, 0.5)";
                     rand2.style.background = "rgba(255, 255, 255, 0.5)";
                     rand3.style.background = "rgba(255, 255, 255, 0.5)";

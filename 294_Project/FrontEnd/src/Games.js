@@ -2,14 +2,18 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './Styles/Games.css';
 
+var gameNameValid;
+const games = [];
+
 class Games extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            game_name: "",
+            name: "",
             description: "",
-            appState: this.props.appState,
-            search: "",
+            player:{
+                id: this.props.appState.user_id
+            }
         }
         this.handleGameName = this.handleGameName.bind(this);
         this.handleGameDescription = this.handleGameDescription.bind(this);
@@ -32,41 +36,37 @@ class Games extends React.Component {
 
                 if (json.name === name) {
                     test.style.backgroundColor = "red";
-                    this.gameNameValid = false;
+                    gameNameValid = 0;
                 }
-                else {
+                else if (json.name === null) {
                     test.style.backgroundColor = "green";
-                    this.gameNameValid = true;
+                    gameNameValid = 1;
                 }
             });
         this.setState({
-            game_name: event.target.value
+           name: event.target.value
         });
     }
 
     handleGameDescription(event) {
-        console.log(this.state);
         this.setState({ description: event.target.value });
     }
 
     handleSubmit(event) {
-        console.log("TEEEEEEEEEESTTTTTTTTTTTTTTTTTT");
-        console.log(this.gameNameValid);
         event.preventDefault();
-        if (this.gameNameValid) {
-            const requestOptions = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(this.state.game_name, this.state.description, this.state.appState.user_id)
 
-            }
-            fetch("http://localhost:8080/game/add/", requestOptions)
-                .then(response => response.json())
-                .then(json => {
-                    console.log(json.data);
-                });
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.state)
         }
+        fetch("http://localhost:8080/game/add/", requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json.data);
+            });
     }
+
 
 
     handleSearch(event) {
@@ -79,7 +79,14 @@ class Games extends React.Component {
         fetch("http://localhost:8080/game/search/?name=" + event.target.value, requestOptions)
             .then(response => response.json())
             .then(json => {
-                x.innerHTML = json[0].name;
+                for(var i=0;i < json.length;i++){
+                    if(games.includes(json[i].name)){
+                        break;
+                    }
+                    games.push(json[i].name);
+                    console.log(...games);
+                }
+                
             });
 
         this.setState({ search: event.target.value });
@@ -87,7 +94,8 @@ class Games extends React.Component {
 
 
     render() {
-        if (this.state.appState.logedIn) {
+        
+        if (this.props.appState.logedIn) {
             return (
                 <>
                     <h1>
@@ -115,7 +123,11 @@ class Games extends React.Component {
                         <hr />
                         <div>
                             <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
-                            <p id="input_search"></p>
+                            <div id="input_search">
+                                <ul>
+                                    {games.map(games => <li>{games}</li>)}
+                                </ul>
+                            </div>
                         </div>
                         <div className='games-container'>
                             <div>
@@ -150,7 +162,11 @@ class Games extends React.Component {
                         <hr />
                         <div className='games-container'>
                             <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
-                            <p id="input_search"></p>
+                            <div id="input_search">
+                                <ul>
+                                    {games.map(games => <li>{games}</li>)}
+                                </ul>
+                            </div>
                         </div>
                         <div className='games-container'>
                             <div>
