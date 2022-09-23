@@ -20,7 +20,7 @@ class GlobalNavigation extends React.Component {
       return (
         <><nav>
           <ul>
-            <li>
+          <li>
               <Link to="/">Home</Link>
             </li>
             <li>
@@ -31,9 +31,10 @@ class GlobalNavigation extends React.Component {
             </li>
             <div className='dropdown'>
               <li className='topnav'>
-                <Link className='dropdown-toggle' to="/Games">Games</Link>
+                <Link className='dropdown-toggle' to="/OverviewGames">Overview Games</Link>
                 <div className='dropdown-content'>
-                  <Link to="/Snake">Snake</Link>
+                <Link to="/AddGame">Add a Game</Link>
+                <Link to="/Snake">Snake</Link>
                 </div>
               </li>
             </div>
@@ -66,9 +67,10 @@ class GlobalNavigation extends React.Component {
             </li>
             <div className='dropdown'>
               <li className='topnav'>
-                <Link className='dropdown-toggle' to="/Games">Games</Link>
+                <Link className='dropdown-toggle' to="/OverviewGames">Overview Games</Link>
                 <div className='dropdown-content'>
-                  <Link to="/Snake">Snake</Link>
+                <Link to="/AddGame">Add a Game</Link>
+                <Link to="/Snake">Snake</Link>
                 </div>
               </li>
             </div>

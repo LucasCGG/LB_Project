@@ -1,26 +1,57 @@
 import React from 'react';
 import './Styles/Leaderboard.css'
 
+
 class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             board: [],
-            appState: props.appState
+            newBoard: {
+                score: this.props.appState.score,
+                game: {
+                    id: this.props.appState.game_id
+                },
+                player: {
+                    id: this.props.appState.user_id
+                }
+            }
+        }
+        this.updateBoard = this.updateBoard.bind(this);
+    };
+
+
+    updateBoard(event) {
+        const requestOptionsPost = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.state.newBoard)
         };
+        fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
+            .then(response => response)
+            .then(json => {
+                console.log(json);
+            });
     }
 
 
-    
-    
+
+    componentDidMount(event) {
+        for (var i = 0; i < 1; i++) {
+            this.updateBoard(event);
+        }
 
 
-    componentDidMount() {
-        if (this.state.board == null || this.state.board.length == 0) {
+        if (this.state.board === null || this.state.board.length === 0) {
             fetch("http://localhost:8080/Leaderboard/")
                 .then(response => response.json())
-                .then(data => this.setState({ board: data }));
+                .then(data => {
+
+                    const data1 = [...data].sort((a, b) => (a.score < b.score ? 1 : -1));
+
+                    this.setState({ board: data1 })
+                });
         }
     }
 
@@ -28,7 +59,7 @@ class Leaderboard extends React.Component {
     render() {
         const Leaderboard = this.state.board.map((e, i) => {
             return (< tr key={i}>
-                <td className='board-data'>{e.id}</td>
+                <td className='board-data'>{i + 1}</td>
                 <td className='board-data'>{e.score}</td>
                 <td className='board-data'>{e.player.username}</td>
                 <td className='board-data'>{e.game.name}</td>
@@ -42,7 +73,6 @@ class Leaderboard extends React.Component {
                 <h1>
                     Leaderboard
                 </h1>
-
                 <div className='spacer'>
                 </div>
                 <div className='board-header'>

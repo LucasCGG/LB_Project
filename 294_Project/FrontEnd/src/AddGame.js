@@ -5,7 +5,7 @@ import './Styles/Games.css';
 var gameNameValid;
 const games = [];
 
-class Games extends React.Component {
+class AddGame extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +18,6 @@ class Games extends React.Component {
         this.handleGameName = this.handleGameName.bind(this);
         this.handleGameDescription = this.handleGameDescription.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleGameName(event) {
@@ -68,31 +67,6 @@ class Games extends React.Component {
     }
 
 
-
-    handleSearch(event) {
-        var x = document.getElementById("input_search");
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        }
-
-        fetch("http://localhost:8080/game/search/?name=" + event.target.value, requestOptions)
-            .then(response => response.json())
-            .then(json => {
-                for(var i=0;i < json.length;i++){
-                    if(games.includes(json[i].name)){
-                        break;
-                    }
-                    games.push(json[i].name);
-                    console.log(...games);
-                }
-                
-            });
-
-        this.setState({ search: event.target.value });
-    }
-
-
     render() {
         
         if (this.props.appState.logedIn) {
@@ -109,7 +83,7 @@ class Games extends React.Component {
                         <hr />
                         <div className="contact-us-container">
                             <div className="contact-us">
-                                <form autoComplete='off' onSubmit={this.handleSubmit}>
+                                <form autoComplete='off' onSubmit={this.handleSubmit} className="form-container">
                                     <label>
                                         Add your game
                                     </label>
@@ -120,32 +94,12 @@ class Games extends React.Component {
                             </div>
                         </div>
                         <hr />
-                        <hr />
-                        <div>
-                            <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
-                            <div id="input_search">
-                                <ul>
-                                    {games.map(games => <li>{games}</li>)}
-                                </ul>
-                            </div>
-                        </div>
-                        <div className='games-container'>
-                            <div>
-                                <Link to="/Snake">Snake</Link>
-                                <img src="../public/img/Games/snake.jpg" />
-                            </div>
-                        </div>
-                        <hr />
                     </div>
                 </>
             )
         } else {
             return (
                 <>
-                    <h1>
-                        Overview Games
-                    </h1>
-
                     <div className='spacer'>
 
                     </div>
@@ -159,22 +113,7 @@ class Games extends React.Component {
                             </ul>
                         </div>
                         <hr />
-                        <hr />
-                        <div className='games-container'>
-                            <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
-                            <div id="input_search">
-                                <ul>
-                                    {games.map(games => <li>{games}</li>)}
-                                </ul>
-                            </div>
-                        </div>
-                        <div className='games-container'>
-                            <div>
-                                <Link to="/Snake">Snake</Link>
-                                <img src="../public/img/Games/snake.jpg" />
-                            </div>
-                        </div>
-                        <hr />
+                       
                     </div>
                 </>
             )
@@ -182,4 +121,4 @@ class Games extends React.Component {
     }
 }
 
-export default Games;
+export default AddGame;

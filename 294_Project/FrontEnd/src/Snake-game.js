@@ -27,7 +27,8 @@ const increaseSpeed = (speed) => speed - 5 * (speed > 5)
 
 
 const initialState = {
-    game_id:"",
+    game_id:2,
+    game_name:"Snake",
     appState:"",
     score: 0,
     rows: emptyRows(),
@@ -40,7 +41,6 @@ const initialState = {
 
 
 class App extends Component {
-
     constructor(props) {
         super(props);
         this.state = initialState;
@@ -109,6 +109,7 @@ class App extends Component {
                 this.setState(initialState);
                 this.props.changeState({
                     game_id: this.state.game_id,
+                    game_name: this.state.game_name,
                     score: this.state.score
                 });
         }
