@@ -1,5 +1,4 @@
 import React from 'react';
-import App from './App.js'
 
 
 import './Styles/User.css'
@@ -41,7 +40,7 @@ class UserRegister extends React.Component {
 
                 let name = event.target.value.toLowerCase();
 
-                if (json.username === name) {
+                if (json.username == name) {
                     rand1.style.background = "red";
                     rand2.style.background = "red";
                     rand3.style.background = "red";
@@ -52,7 +51,7 @@ class UserRegister extends React.Component {
                     this.usernameValid = false;
 
                 }
-                else if(json.username == null || json.username != name){
+                else if(json.length === 0){
                     rand1.style.background = "rgba(255, 255, 255, 0.5)";
                     rand2.style.background = "rgba(255, 255, 255, 0.5)";
                     rand3.style.background = "rgba(255, 255, 255, 0.5)";
@@ -118,7 +117,7 @@ class UserRegister extends React.Component {
     }
     handleSubmit(event) {
         event.preventDefault();
-        if (this.usernameValid && this.emailValid) {
+        if (this.usernameValid ) {
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },

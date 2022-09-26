@@ -73,7 +73,6 @@ class OverviewGame extends React.Component {
                         </div>
                     </div>
                     <hr />
-                    <hr />
                     <div className='games-container'>
                         <div>
                             <Link to="/Snake">Snake</Link>

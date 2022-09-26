@@ -1,0 +1,23 @@
+#prDownload a {
+  text-decoration: none;
+  color: #000000;
+  font-weight: 800;
+  position: relative;
+}
+
+#prDownload a::before {
+  content: '';
+  background-color: hsla(196, 61%, 58%, .75);
+  position: absolute;
+  left: 0;
+  bottom: 3px;
+  width: 100%;
+  height: 8px;
+  z-index: -1;
+  transition: all .3s ease-in-out;
+}
+
+#prDownload a:hover::before {
+  bottom: 0;
+  height: 100%;
+}

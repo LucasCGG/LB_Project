@@ -31,6 +31,7 @@ class App extends React.Component {
       score: "",
       game_id: "",
       game_name: "",
+      updateAble: false
     }
 
     this.changeState = this.changeState.bind(this);
@@ -47,7 +48,7 @@ class App extends React.Component {
           <Route path="/" element={<Layout logedin={this.state.logedIn} />}>
             <Route index element={<Home appState={this.state} />} />
             <Route path="About" element={<About />} />
-            <Route path="Leaderboard" element={<Leaderboard appState={this.state} />} />
+            <Route path="Leaderboard" element={<Leaderboard appState={this.state} changeState={this.changeState}/>} />
             <Route path="OverviewGames" element={<OverviewGames appState={this.state} />} />
             <Route path="AddGame" element={<AddGame appState={this.state} />} />
             <Route path='Snake' element={<Snake changeState={this.changeState} />} />

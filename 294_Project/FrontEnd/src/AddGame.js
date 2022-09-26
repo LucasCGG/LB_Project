@@ -72,9 +72,6 @@ class AddGame extends React.Component {
         if (this.props.appState.logedIn) {
             return (
                 <>
-                    <h1>
-                        Overview Games
-                    </h1>
 
                     <div className='spacer'>
 
@@ -105,11 +102,11 @@ class AddGame extends React.Component {
                     </div>
                     <div id='footer'>
                         <hr />
-                        <h2>Please Log in or Register to add a game</h2>
+                        <h2>Please Log in or Sing Up to add a game</h2>
                         <div>
                             <ul className="container-link">
                                 <Link to="/UserLogin">Log in</Link>
-                                <Link to="/UserRegister">Register</Link>
+                                <Link to="/UserRegister">Sign Up</Link>
                             </ul>
                         </div>
                         <hr />

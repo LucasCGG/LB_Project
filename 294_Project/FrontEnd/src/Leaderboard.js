@@ -23,16 +23,21 @@ class Leaderboard extends React.Component {
 
 
     updateBoard(event) {
-        const requestOptionsPost = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state.newBoard)
-        };
-        fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
-            .then(response => response)
-            .then(json => {
-                console.log(json);
+        if (this.props.appState.updateAble) {
+            const requestOptionsPost = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(this.state.newBoard)
+            };
+            fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
+                .then(response => response)
+                .then(json => {
+                    console.log(json);
+                });
+            this.props.changeState({
+                updateAble:false
             });
+        }
     }
 
 
