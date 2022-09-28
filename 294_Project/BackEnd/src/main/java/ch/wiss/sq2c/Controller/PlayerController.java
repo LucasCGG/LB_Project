@@ -111,7 +111,7 @@ public class PlayerController {
         if (players != null) {
             return ResponseEntity.ok("Email is valid");
         } else {
-            return ResponseEntity.ok("Email is not valid");
+            return ResponseEntity.("Email is not valid");
         }
     }
 

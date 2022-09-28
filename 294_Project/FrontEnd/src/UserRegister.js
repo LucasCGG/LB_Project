@@ -3,6 +3,8 @@ import React from 'react';
 
 import './Styles/User.css'
 
+var jsonEmpty;
+
 class UserRegister extends React.Component {
     constructor(props) {
         super(props);
@@ -20,6 +22,28 @@ class UserRegister extends React.Component {
         this.handlePassword = this.handlePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+    componentDidMount() {
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        }
+
+        fetch("http://localhost:8080/Player/all/", requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                console.log(json);
+                if (json.length === 0) {
+                    jsonEmpty = true;
+                    console.log(jsonEmpty)
+                }
+                else {
+                    jsonEmpty = false;
+                }
+            });
+
+    }
+
 
     handleUsername(event) {
         const requestOptions = {
@@ -40,23 +64,39 @@ class UserRegister extends React.Component {
 
                 let name = event.target.value.toLowerCase();
 
-                if (json.username == name) {
-                    rand1.style.background = "red";
-                    rand2.style.background = "red";
-                    rand3.style.background = "red";
-                    uBox.classList.add("false");
-
-                    output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
-
-                    this.usernameValid = false;
-
-                }
-                else if(json.length === 0){
+                if (jsonEmpty) {
                     rand1.style.background = "rgba(255, 255, 255, 0.5)";
                     rand2.style.background = "rgba(255, 255, 255, 0.5)";
                     rand3.style.background = "rgba(255, 255, 255, 0.5)";
                     uBox.classList.remove("false");
                     this.usernameValid = true;
+                    console.log("User was addet with EMPTY JSON");
+                } else if (!jsonEmpty) {
+                    var compare1 = json.username.localeCompare(name);
+                    if (compare1 === 0) {
+                        rand1.style.background = "red";
+                        rand2.style.background = "red";
+                        rand3.style.background = "red";
+                        uBox.classList.add("false");
+
+                        output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
+
+                        this.usernameValid = false;
+
+
+                    }
+                    else if(compare1 !== 0){
+                        rand1.style.background = "rgba(255, 255, 255, 0.5)";
+                        rand2.style.background = "rgba(255, 255, 255, 0.5)";
+                        rand3.style.background = "rgba(255, 255, 255, 0.5)";
+                        uBox.classList.remove("false");
+                        this.usernameValid = true;
+
+                        output.innerHTML = null;
+
+                    }
+                    console.log(compare1);
+
                 }
             });
         this.setState({ username: event.target.value });
@@ -116,8 +156,9 @@ class UserRegister extends React.Component {
         this.setState({ password: event.target.value });
     }
     handleSubmit(event) {
+        let output = document.querySelector('#output');
         event.preventDefault();
-        if (this.usernameValid ) {
+        if (this.usernameValid) {
             const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -126,7 +167,9 @@ class UserRegister extends React.Component {
             fetch("http://localhost:8080/Player/add/", requestOptions)
                 .then(response => response.json())
                 .then(json => {
-                    console.log(json.data);
+                    var x = JSON.stringify(json);
+                    console.log(x);
+                    output.innerHTML = x;
                 });
         }
     }
