@@ -3,8 +3,10 @@ package ch.wiss.sq2c.Controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Cache;
 import javax.validation.Valid;
 
+import org.hibernate.validator.cfg.defs.EmailDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.wiss.sq2c.Player;
 import ch.wiss.sq2c.Sq2cApplication;
-import ch.wiss.sq2c.Exceptions.UserInvalid;
+import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
+import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
 @CrossOrigin
@@ -35,33 +38,27 @@ public class PlayerController {
     /**
      * this adds a new player
      */
+
     @PostMapping(path = "/add/")
-    public @ResponseBody ResponseEntity<String> addPlayer(@Valid @RequestBody Player newPlayer) {
-        List<Player> players = playerRepository.findByEmailContaining(newPlayer.email);
+    public @ResponseBody ResponseEntity<String> addPlayer(@RequestBody Player newPlayer) {
         System.out.println("Adding Player...");
-        System.out.println(players);
-        if (players.isEmpty()) {
-            try {
-                String confirmedEmail;
-                boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
-                if (isOk) {
-                    confirmedEmail = newPlayer.email;
-                } else {
-                    return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                            .body("Invalid Email... Please provide a valide E-Mail");
-                }
-                newPlayer.email = confirmedEmail;
 
-                playerRepository.save(newPlayer);
-            } catch (Exception ex) {
-                throw new UserInvalid(newPlayer.username);
-            }
-
-            return ResponseEntity.ok("User is valid");
+        String confirmedEmail;
+        boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
+        if (isOk) {
+            confirmedEmail = newPlayer.email;
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body("E-Mail is already in use. Please provide a different E-mail");
+            throw new EmailInvalidExcecption(newPlayer.email);
         }
+        newPlayer.email = confirmedEmail;
+
+        try {
+            playerRepository.save(newPlayer);
+        } catch (Exception ex) {
+            throw new UserInvalidException(newPlayer.username);
+        }
+
+        return ResponseEntity.ok("User is valid");
 
     }
 
@@ -111,7 +108,7 @@ public class PlayerController {
         if (players != null) {
             return ResponseEntity.ok("Email is valid");
         } else {
-            return ResponseEntity.("Email is not valid");
+            return ResponseEntity.ok("Email is not valid");
         }
     }
 
@@ -142,8 +139,4 @@ public class PlayerController {
         System.out.println("FindAll Player Request");
         return playerRepository.findAll();
     }
-
-    /**
-     * Validate Player
-     */
 }

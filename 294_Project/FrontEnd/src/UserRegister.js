@@ -3,7 +3,6 @@ import React from 'react';
 
 import './Styles/User.css'
 
-var jsonEmpty;
 
 class UserRegister extends React.Component {
     constructor(props) {
@@ -33,13 +32,7 @@ class UserRegister extends React.Component {
             .then(response => response.json())
             .then(json => {
                 console.log(json);
-                if (json.length === 0) {
-                    jsonEmpty = true;
-                    console.log(jsonEmpty)
-                }
-                else {
-                    jsonEmpty = false;
-                }
+
             });
 
     }
@@ -63,39 +56,24 @@ class UserRegister extends React.Component {
                 const rand3 = document.querySelector('#BoxFrontUsername');
 
                 let name = event.target.value.toLowerCase();
+                console.log(json.username);
 
-                if (jsonEmpty) {
+                if (json.username !== name) {
                     rand1.style.background = "rgba(255, 255, 255, 0.5)";
                     rand2.style.background = "rgba(255, 255, 255, 0.5)";
                     rand3.style.background = "rgba(255, 255, 255, 0.5)";
                     uBox.classList.remove("false");
                     this.usernameValid = true;
-                    console.log("User was addet with EMPTY JSON");
-                } else if (!jsonEmpty) {
-                    var compare1 = json.username.localeCompare(name);
-                    if (compare1 === 0) {
-                        rand1.style.background = "red";
-                        rand2.style.background = "red";
-                        rand3.style.background = "red";
-                        uBox.classList.add("false");
+                } else {
 
-                        output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
+                    rand1.style.background = "red";
+                    rand2.style.background = "red";
+                    rand3.style.background = "red";
+                    uBox.classList.add("false");
 
-                        this.usernameValid = false;
+                    output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
 
-
-                    }
-                    else if(compare1 !== 0){
-                        rand1.style.background = "rgba(255, 255, 255, 0.5)";
-                        rand2.style.background = "rgba(255, 255, 255, 0.5)";
-                        rand3.style.background = "rgba(255, 255, 255, 0.5)";
-                        uBox.classList.remove("false");
-                        this.usernameValid = true;
-
-                        output.innerHTML = null;
-
-                    }
-                    console.log(compare1);
+                    this.usernameValid = false;
 
                 }
             });

@@ -78,7 +78,6 @@ class GlobalNavigation extends React.Component {
               <li className='topnav-right'>
                 <a class="dropdown-toggle">User</a>
                 <div class="dropdown-content">
-                  <Link to="/UserRegister">Sign Up</Link>
                   <Link to="/" onClick={this.logOut}>LogOut</Link>
                 </div>
               </li>

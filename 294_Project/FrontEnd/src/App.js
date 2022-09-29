@@ -51,7 +51,7 @@ class App extends React.Component {
             <Route path="Leaderboard" element={<Leaderboard appState={this.state} changeState={this.changeState}/>} />
             <Route path="OverviewGames" element={<OverviewGames appState={this.state} />} />
             <Route path="AddGame" element={<AddGame appState={this.state} />} />
-            <Route path='Snake' element={<Snake changeState={this.changeState} />} />
+            <Route path='Snake' element={<Snake changeState={this.changeState} appState={this.state}/>} />
             <Route path="UserRegister" element={<UserRegister />} />
             <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
             <Route path="/" />
@@ -61,8 +61,7 @@ class App extends React.Component {
       </div>
     );
   }
+
+  
 }
-
-
-
 export default App;

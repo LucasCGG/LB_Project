@@ -7,47 +7,14 @@ class Leaderboard extends React.Component {
         super(props);
 
         this.state = {
-            board: [],
-            newBoard: {
-                score: this.props.appState.score,
-                game: {
-                    id: this.props.appState.game_id
-                },
-                player: {
-                    id: this.props.appState.user_id
-                }
-            }
-        }
-        this.updateBoard = this.updateBoard.bind(this);
-    };
-
-
-    updateBoard(event) {
-        if (this.props.appState.updateAble) {
-            const requestOptionsPost = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(this.state.newBoard)
-            };
-            fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
-                .then(response => response)
-                .then(json => {
-                    console.log(json);
-                });
-            this.props.changeState({
-                updateAble:false
-            });
-        }
+            board: []
+        };
     }
 
 
 
+
     componentDidMount(event) {
-        for (var i = 0; i < 1; i++) {
-            this.updateBoard(event);
-        }
-
-
         if (this.state.board === null || this.state.board.length === 0) {
             fetch("http://localhost:8080/Leaderboard/")
                 .then(response => response.json())

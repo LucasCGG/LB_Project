@@ -1,9 +1,11 @@
-package ch.wiss.sq2c;
+package ch.wiss.sq2c.Exceptions.Advisor;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hibernate.annotations.FetchProfile.FetchOverride;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +17,15 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-/**
- * This class handles Exceptions thrown by the application and returns well
- * formed JSON responses instead.
- * 
- * @author Patrick Meier
- *
- */
+import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
+import ch.wiss.sq2c.Exceptions.UserInvalidException;
+
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
-
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex,
             HttpHeaders headers, HttpStatus status, WebRequest request) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getMessage());
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        return createDefaultErrorResponse(ex.getMessage());
     }
 
     @Override
@@ -47,12 +41,23 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MeineException.class)
-    public ResponseEntity<Object> handleMeineException(MeineException ex, WebRequest requesst) {
-        Map<String, Object> errors = new HashMap<>();
+    @ExceptionHandler(UserInvalidException.class)
+    public ResponseEntity<Object> handleUserInvalidException(UserInvalidException ex,
+            WebRequest request) {
+        return createDefaultErrorResponse(ex.getMessage());
+    }
 
+    @ExceptionHandler(EmailInvalidExcecption.class)
+    public ResponseEntity<Object> handleEmailInvalidException(EmailInvalidExcecption ex,
+            WebRequest request) {
+        return createDefaultErrorResponse(ex.getMessage());
+    }
+
+    private ResponseEntity<Object> createDefaultErrorResponse(String exceptionMessage) {
+        Map<String, Object> errors = new HashMap<>();
         errors.put("timestamp", LocalDateTime.now());
-        errors.put("message", "Etwas ist schief gelaufen.");
+        errors.put("error", exceptionMessage);
+
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

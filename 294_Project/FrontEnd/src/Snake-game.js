@@ -27,8 +27,8 @@ const increaseSpeed = (speed) => speed - 5 * (speed > 5)
 
 
 const initialState = {
-    game_id:2,
-    game_name:"Snake",
+    game_id: 2,
+    game_name: "Snake",
     score: 0,
     rows: emptyRows(),
     snake: [getRandom()],
@@ -106,68 +106,77 @@ class App extends Component {
         for (let i = 0; i < snake.length - 3; i++) {
             if ((head.x === snake[i].x) && (head.y === snake[i].y)) {
                 this.setState(initialState);
-                this.props.changeState({
-                    game_id: this.state.game_id,
-                    game_name: this.state.game_name,
-                    score: this.state.score,
-                    updateAble: true
-                });
+                this.updateLeaderBoard();
+            }
         }
     }
-}
 
-changeDirection = ({ keyCode }) => {
-    let direction = this.state.direction;
-    switch (keyCode) {
-        case LEFT:
-            direction = (direction === RIGHT) ? RIGHT : LEFT;
-            break;
-        case RIGHT:
-            direction = (direction === LEFT) ? LEFT : RIGHT;
-            break;
-        case UP:
-            direction = (direction === DOWN) ? DOWN : UP;
-            break;
-        case DOWN:
-            direction = (direction === UP) ? UP : DOWN;
-            break;
-        case STOP:
-            direction = STOP;
-            break;
-        default:
-            break;
+    changeDirection = ({ keyCode }) => {
+        let direction = this.state.direction;
+        switch (keyCode) {
+            case LEFT:
+                direction = (direction === RIGHT) ? RIGHT : LEFT;
+                break;
+            case RIGHT:
+                direction = (direction === LEFT) ? LEFT : RIGHT;
+                break;
+            case UP:
+                direction = (direction === DOWN) ? DOWN : UP;
+                break;
+            case DOWN:
+                direction = (direction === UP) ? UP : DOWN;
+                break;
+            case STOP:
+                direction = STOP;
+                break;
+            default:
+                break;
+        }
+        this.setState({
+            direction: direction
+        });
     }
-    this.setState({
-        direction: direction
-    });
-}
 
 
-render() {
-    const displayRows = this.state.rows.map((row, i) => row.map((value, j) => <div name={`${i}=${j}`} className={value} />))
-    return (
-        <div className="a text" >
-            <h1> Snake  v0.1.1</h1>
-            <h3> Score: {this.state.score}</h3>
-            <ul>
-                <li>Press "Space" to pause the game.</li>
-                <li>Press "Arrow keys" to change direction/unpause/start.</li>
-            </ul>
-            <div className="snake-container">
-                <div className="grid">{displayRows}</div>
+    render() {
+        const displayRows = this.state.rows.map((row, i) => row.map((value, j) => <div name={`${i}=${j}`} className={value} />))
+        return (
+            <div className="a text" >
+                <h1> Snake  v0.1.1</h1>
+                <h3> Score: {this.state.score}</h3>
+                <ul>
+                    <li>Press "Space" to pause the game.</li>
+                    <li>Press "Arrow keys" to change direction/unpause/start.</li>
+                </ul>
+                <div className="snake-container">
+                    <div className="grid">{displayRows}</div>
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+
+    updateLeaderBoard() {
+        const requestOptionsPost = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                "score":this.state.score,
+                "game":{
+                    "id":2
+                },
+                "player":{
+                    "id":this.props.appState.user_id
+                }
+            })
+        }
+        console.log(requestOptionsPost.body);
+        fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
+            .then(response => response)
+            .then(json => {
+                console.log(json);
+            });
+    }
 }
-}
-
-
-
-
-
-
-
-
 
 
 export default App;
