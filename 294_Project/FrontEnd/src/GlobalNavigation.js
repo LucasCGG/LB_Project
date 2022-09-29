@@ -35,6 +35,7 @@ class GlobalNavigation extends React.Component {
                 <div className='dropdown-content'>
                 <Link to="/AddGame">Add a Game</Link>
                 <Link to="/Snake">Snake</Link>
+                <Link to="/Tetris">Tetris</Link>
                 </div>
               </li>
             </div>
@@ -71,6 +72,7 @@ class GlobalNavigation extends React.Component {
                 <div className='dropdown-content'>
                 <Link to="/AddGame">Add a Game</Link>
                 <Link to="/Snake">Snake</Link>
+                <Link to="/Tetris">Tetris</Link>
                 </div>
               </li>
             </div>

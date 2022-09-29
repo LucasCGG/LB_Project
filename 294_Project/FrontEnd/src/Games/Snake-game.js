@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./Styles/Snake.css"
+import "../Styles/Snake.css"
 
 const HEIGHT = 10;
 const WIDTH = 10;
