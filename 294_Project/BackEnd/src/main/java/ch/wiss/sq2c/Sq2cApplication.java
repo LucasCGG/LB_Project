@@ -21,8 +21,6 @@ public class Sq2cApplication {
 			add(" Pls continue...");
 		}
 	};
-	@Autowired
-	PlayerRepository playerRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Sq2cApplication.class, args);

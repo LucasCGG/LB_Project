@@ -12,7 +12,6 @@ import Home from './Home';
 import About from './About';
 import UserRegister from './UserRegister';
 import Snake from './Games/Snake-game';
-import Tetris from './Games/Tetris-game';
 import Leaderboard from './Leaderboard';
 import UserLogin from './UserLogin';
 import AddGame from './AddGame';
@@ -49,7 +48,6 @@ class App extends React.Component {
             <Route path="OverviewGames" element={<OverviewGames appState={this.state} />} />
             <Route path="AddGame" element={<AddGame appState={this.state} />} />
             <Route path='Snake' element={<Snake changeState={this.changeState} appState={this.state}/>} />
-            <Route path='Tetris' element={<Tetris/>}/>
             <Route path="UserRegister" element={<UserRegister />} />
             <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
             <Route path="/" />

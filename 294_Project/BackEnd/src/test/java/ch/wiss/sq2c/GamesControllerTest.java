@@ -13,17 +13,25 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.assertj.core.api.Assertions.*;
+import com.fasterxml.jackson.core.sym.Name;
 
-import ch.wiss.sq2c.Controller.PlayerController;
+import ch.wiss.sq2c.Controller.GameController;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+import java.util.Optional;
+
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 @AutoConfigureMockMvc
-public class PlayerControllerTest {
+public class GamesControllerTest {
     @MockBean
     private PlayerRepository playerRepository;
 
@@ -34,22 +42,32 @@ public class PlayerControllerTest {
     private LeaderboardRepository leaderboardRepository;
 
     @Autowired
-    private PlayerController playerController;
+    private GameController gameController;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    @DisplayName("Check if the PlayerController gets injected correctly")
-    public void CheckPlayerControllerInjectNotNull() throws Exception {
-        assertThat(playerController).isNotNull();
+    @DisplayName("Check if the GamesController gets injected correctly")
+    public void CheckGameInjectNotNullU() throws Exception {
+        assertThat(gameController).isNotNull();
     }
 
     @Test
-    @DisplayName("Checks the Get request for all players")
-    public void CheckGetAllPlayersIsOk() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/Player/all/"))
+    @DisplayName("Checks the Get request for all games")
+    public void CheckGetAllGamesIsOk() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/game/all/"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void CheckSearchGameIsOk() throws Exception {
+        when(gameRepository.findByNameContaining(anyString())).thenReturn(List.of(new Game()));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/game/search/Snake"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
+
     }
 }
