@@ -66,7 +66,6 @@ public class GamesControllerTest {
         when(gameRepository.findByNameContaining(anyString())).thenReturn(List.of(new Game()));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/game/search/Snake"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
 
     }
