@@ -13,7 +13,7 @@ class About extends React.Component {
         return (
             <>
                 <h1>
-                    Was ist das Project?
+                    About this Project.
                 </h1>
 
                 <div className='spacer'>
@@ -22,20 +22,19 @@ class About extends React.Component {
                 <div id='footer'>
                     <hr />
                     <p>
-                        Das Projekt ist eine Leistungsbeurteillung für die Module "294 Frontend einer Interaktiven Webapplikation realisieren" und "295 Backend für Applikationen realisieren"
+                        The project is a performance evaluation for the modules "294 Realize frontend of an interactive web application" and "295 Realize backend for applications".
                     </p>
                     <br />
                     <p>
-                        Dieses Projekt wurde mit MAVEN, ReactJS und HTML/CSS erstellt.
+                        This project was created with MAVEN, ReactJS and HTML/CSS.
                     </p>
                     <br />
                     <p id="prDownload">
-                        Drücke&ensp;
-                       <a href={downloadLink} download="projectdokumentation.pdf">hier</a>
-                       &ensp;um die Projektdokumentation zu downloaden
+                        Press&ensp;
+                        <a href={downloadLink} download="projectdokumentation.pdf">here</a>
+                        &ensp;to download the project documentation
                     </p>
-
-                    <hr />
+                    <hr/>
                 </div>
             </>
         )

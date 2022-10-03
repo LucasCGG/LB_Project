@@ -16,7 +16,7 @@ class Home extends React.Component {
             return (
                 <>
                     <h1>
-                        Wilkommen zu meinem Projekt
+                        Welcome to my project
                     </h1>
 
 
@@ -25,18 +25,18 @@ class Home extends React.Component {
                     </div>
                     <div id='footer'>
                         <hr />
-                        <p>Modul 295 & 294</p>
-                        <p>Von: Lucas Colaço</p>
+                        <p>Modul 294 & 295</p>
+                        <p>Author: Lucas Colaço</p>
                         <hr />
                     </div>
                 </>
             )
         }
-        else{
+        else {
             return (
                 <>
                     <h1>
-                        Wilkommen {this.state.appState.username}
+                        Welcome {this.state.appState.username}
                     </h1>
 
 
@@ -45,8 +45,8 @@ class Home extends React.Component {
                     </div>
                     <div id='footer'>
                         <hr />
-                        <p>Modul 295 & 294</p>
-                        <p>Von: Lucas Colaço</p>
+                        <p>Modul 294 & 295</p>
+                        <p>Author: Lucas Colaço</p>
                         <hr />
                     </div>
                 </>

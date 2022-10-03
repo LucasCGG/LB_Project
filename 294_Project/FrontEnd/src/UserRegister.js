@@ -146,7 +146,6 @@ class UserRegister extends React.Component {
                 .then(response => response.json())
                 .then(json => {
                     var x = JSON.stringify(json);
-                    console.log(x);
                     output.innerHTML = x;
                 });
         }

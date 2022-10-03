@@ -13,20 +13,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.fasterxml.jackson.core.sym.Name;
-
 import ch.wiss.sq2c.Controller.GameController;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
@@ -65,7 +61,7 @@ public class GamesControllerTest {
     public void CheckSearchGameIsOk() throws Exception {
         when(gameRepository.findByNameContaining(anyString())).thenReturn(List.of(new Game()));
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/game/search/Snake"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/game/search/?name=Snake"))
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON));
 
     }

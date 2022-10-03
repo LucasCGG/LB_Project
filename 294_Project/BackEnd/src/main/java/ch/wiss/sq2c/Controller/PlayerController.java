@@ -2,14 +2,12 @@ package ch.wiss.sq2c.Controller;
 
 import java.util.List;
 import java.util.Optional;
-
-import javax.persistence.Cache;
 import javax.validation.Valid;
 
-import org.hibernate.validator.cfg.defs.EmailDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -124,7 +122,7 @@ public class PlayerController {
         if (players != null) {
             var data = players.get(0).password;
             if (password.toString().equals(data.toString())) {
-                return ResponseEntity.ok("Login was succesfull");
+                return ResponseEntity.status(HttpStatus.OK).body("Login was Successfull");
             } else {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Password or Email is not correct");
             }

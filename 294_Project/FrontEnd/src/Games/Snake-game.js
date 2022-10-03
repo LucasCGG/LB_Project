@@ -147,6 +147,8 @@ class App extends Component {
                 <ul>
                     <li>Press "Space" to pause the game.</li>
                     <li>Press "Arrow keys" to change direction/unpause/start.</li>
+                    <li>&ensp;</li>
+                    <li>To upload your score to the Leaderboard you have to be loged in!</li>
                 </ul>
                 <div className="snake-container">
                     <div className="grid">{displayRows}</div>
@@ -173,7 +175,6 @@ class App extends Component {
         fetch("http://localhost:8080/Leaderboard/add/", requestOptionsPost)
             .then(response => response)
             .then(json => {
-                console.log(json);
             });
     }
 }

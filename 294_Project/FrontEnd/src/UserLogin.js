@@ -58,7 +58,6 @@ class UserLogin extends React.Component {
                     })
                 }
             });
-
         this.setState({ email: event.target.value });
     }
 
@@ -71,10 +70,12 @@ class UserLogin extends React.Component {
             })
         }
         this.setState({ password: event.target.value });
+
     }
 
     handleSubmit(event) {
         event.preventDefault();
+        var x = document.getElementById("output");
 
         if (this.state.ok === true) {
             const requestOptionsPost = {
@@ -94,8 +95,9 @@ class UserLogin extends React.Component {
                     console.log(json.data);
                     console.log()
 
-                    if (json.status === 200) {
 
+                    if (json.status === 200) {
+                        x.innerHTML = "Login was successfull <br/> <br/> You can now continue to check out the Website :)";
                         fetch("http://localhost:8080/Player/one/Email/?email=" + this.state.email, requestOptionsGet)
                             .then(response => response.json())
                             .then(json => {
@@ -107,10 +109,8 @@ class UserLogin extends React.Component {
                                     email: json.email,
                                 });
                             });
-
-
-
                     }
+
                 });
         }
     }
@@ -161,6 +161,8 @@ class UserLogin extends React.Component {
                                 Log In
                             </div>
                         </button>
+                        <h3 id="output">
+                        </h3>
                     </div>
                 </form>
             </>

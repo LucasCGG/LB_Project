@@ -17,6 +17,7 @@ class OverviewGame extends React.Component {
 
     handleSearch(event) {
         var x = document.getElementById("Output-addGame");
+        var y = document.getElementById("input_search")
         const requestOptions = {
             method: "GET",
             headers: { "Content-Type": "application/json" }
@@ -29,18 +30,20 @@ class OverviewGame extends React.Component {
                     if (games.includes(json[i].name)) {
                         break;
                     }
+                    games = [];
+
                     games.push(json[i].name);
+                    y.classList.remove("noDisplay");
                     x.classList.add("noDisplay");
                 }
-                console.log(json);
-                if (json.length == 0) {
+                if (json.length === 0) {
                     games = [];
+                    y.classList.add("noDisplay");
                     x.classList.remove("noDisplay");
                 }
-
             });
 
-        if (event.target.value == "") {
+        if (event.target.value === "") {
             games = [];
         }
 
@@ -64,7 +67,7 @@ class OverviewGame extends React.Component {
                     <div>
                         <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
 
-                        <p id="Output-addGame" className='noDisplay'>It seems like that Game does not exist yet, Would you want to <Link to="/AddGame">Add</Link></p>
+                        <p id="Output-addGame"className='noDisplay'>It seems like that Game does not exist yet, Would you want to <Link to="/AddGame">Add</Link></p>
 
                         <div id="input_search">
                             <ul>
