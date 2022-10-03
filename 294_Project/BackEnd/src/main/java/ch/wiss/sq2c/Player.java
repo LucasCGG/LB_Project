@@ -4,6 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
+/*
+ * Diese Klasse erstellt die Tabelle "Player"
+ */
 @Entity
 @Table(name = "Player")
 public class Player {

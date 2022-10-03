@@ -2,6 +2,9 @@ package ch.wiss.sq2c;
 
 import javax.persistence.*;
 
+/*
+ * Diese Klasse erstellt die Tabelle "Leaderboard"
+ */
 @Entity
 @Table(name = "Leaderboard")
 public class Leaderboard {

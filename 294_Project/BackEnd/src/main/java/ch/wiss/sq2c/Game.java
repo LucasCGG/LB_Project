@@ -2,6 +2,9 @@ package ch.wiss.sq2c;
 
 import javax.persistence.*;
 
+/*
+ * Diese Klasse erstellt die Tabelle
+ */
 @Entity
 @Table(name = "Game")
 public class Game {

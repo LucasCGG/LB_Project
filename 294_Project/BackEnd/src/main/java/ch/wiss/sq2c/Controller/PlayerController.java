@@ -26,6 +26,10 @@ import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
+/*
+ * Die Klasse wird benutzt um änderung in der "Player" Table zu machen.
+ * (REST-API für "Player")
+ */
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/Player")
@@ -34,10 +38,6 @@ public class PlayerController {
 
     @Autowired
     private PlayerRepository playerRepository;
-
-    /**
-     * this adds a new player
-     */
 
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@RequestBody Player newPlayer) {

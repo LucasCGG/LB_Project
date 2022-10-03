@@ -1,5 +1,8 @@
 package ch.wiss.sq2c.Exceptions;
 
+/* 
+ * Exception für wenn der User eine ungültig E-Mail angibt
+*/
 public class EmailInvalidExcecption extends RuntimeException {
 
     public EmailInvalidExcecption(String name) {

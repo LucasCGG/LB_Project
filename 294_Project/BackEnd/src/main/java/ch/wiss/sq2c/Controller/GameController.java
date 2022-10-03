@@ -23,6 +23,10 @@ import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 
+/*
+ * Die Klasse wird benutzt um änderung in der "Game" Table zu machen.
+ * (REST-API für "Game")
+ */
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/game")
@@ -32,9 +36,6 @@ public class GameController {
     @Autowired
     private GameRepository gameRepository;
 
-    /**
-     * this adds a game
-     */
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addGame(@Valid @RequestBody Game game) {
         gameRepository.save(game);
@@ -60,9 +61,6 @@ public class GameController {
         return games.stream();
     }
 
-    /**
-     * This deletes a game
-     */
     @DeleteMapping(path = "/delete/")
     public @ResponseBody ResponseEntity<String> deleteGame(@RequestParam Integer id) {
         if (id == null) {
@@ -72,9 +70,6 @@ public class GameController {
         return ResponseEntity.ok("Game identified by ID:' " + id + " ' was deleted!");
     }
 
-    /**
-     * this reads all games
-     */
     @GetMapping(path = "/all/")
     public @ResponseBody Iterable<Game> getAllGames() {
 

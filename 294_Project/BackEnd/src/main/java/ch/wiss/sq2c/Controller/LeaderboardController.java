@@ -15,6 +15,10 @@ import ch.wiss.sq2c.Leaderboard;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 
+/*
+ * Die Klasse wird benutzt um änderung in der "Leaderboard" Table zu machen.
+ * (REST-API für "Leaderboard")
+ */
 @CrossOrigin
 @RestController
 @RequestMapping(path = "/Leaderboard")
