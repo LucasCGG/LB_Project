@@ -15,4 +15,6 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
     List<Player> findByEmailContaining(String email);
 
     List<Player> findByPasswordContaining(String password);
+
+    List<Player> findByIdContaining(int id);
 }

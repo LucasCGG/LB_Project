@@ -61,8 +61,6 @@ class UserLogin extends React.Component {
         this.setState({ email: event.target.value });
     }
 
-
-
     handlePassword(event) {
         if (event.target.value === this.state.tempPW) {
             this.setState({
@@ -97,7 +95,6 @@ class UserLogin extends React.Component {
 
 
                     if (json.status === 200) {
-                        x.innerHTML = "Login was successfull <br/> <br/> You can now continue to check out the Website :)";
                         fetch("http://localhost:8080/Player/one/Email/?email=" + this.state.email, requestOptionsGet)
                             .then(response => response.json())
                             .then(json => {
@@ -107,8 +104,10 @@ class UserLogin extends React.Component {
                                     username: json.username,
                                     name: json.name,
                                     email: json.email,
+                                    age: json.age
                                 });
                             });
+                            window.location.replace("/");
                     }
 
                 });
@@ -118,7 +117,7 @@ class UserLogin extends React.Component {
     render() {
         return (
             <>
-                <form autoComplete='on' onSubmit={this.handleSubmit} className="login-form">
+                <form autoComplete='off' onSubmit={this.handleSubmit} className="login-form">
                     <div className="control">
                         <h1 className="form-title">
                             Login

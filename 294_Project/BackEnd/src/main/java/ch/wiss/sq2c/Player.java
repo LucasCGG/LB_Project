@@ -13,7 +13,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     public String username;
     @NotNull(message = "Name cannot be null")

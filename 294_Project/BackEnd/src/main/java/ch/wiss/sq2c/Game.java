@@ -2,6 +2,9 @@ package ch.wiss.sq2c;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 /*
  * Diese Klasse erstellt die Tabelle
  */
@@ -17,7 +20,7 @@ public class Game {
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "creator_id", nullable = false)
+    @JoinColumn(name = "creatorId", nullable = false)
     private Player player;
 
     // SETTER

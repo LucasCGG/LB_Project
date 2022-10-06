@@ -11,9 +11,7 @@ import logo from './images/logo/Logo1.png';
 export default class Layout extends React.Component {
     constructor(props){
         super(props)
-        this.state = {
-          selectectear: this.props.seafsagas
-        }
+
     }
 
     render (){

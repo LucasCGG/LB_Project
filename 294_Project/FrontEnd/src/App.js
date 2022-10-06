@@ -16,6 +16,7 @@ import Leaderboard from './Leaderboard';
 import UserLogin from './UserLogin';
 import AddGame from './AddGame';
 import OverviewGames from './OverviewGames';
+import User from './User';
 
 
 class App extends React.Component {
@@ -50,6 +51,7 @@ class App extends React.Component {
             <Route path='Snake' element={<Snake changeState={this.changeState} appState={this.state}/>} />
             <Route path="UserRegister" element={<UserRegister />} />
             <Route path="UserLogin" element={<UserLogin changeState={this.changeState} />} />
+            <Route path="User" element={<User appState={this.state} changeState={this.changeState}/>} />
             <Route path="/" />
           </Route>
           <Route path="*" element={<NotFound />} />

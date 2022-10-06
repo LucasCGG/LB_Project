@@ -77,13 +77,15 @@ class GlobalNavigation extends React.Component {
             <div class="dropdown">
               <li className='topnav-right'>
                 <a class="dropdown-toggle">User</a>
-                <div class="dropdown-content">
+                <div class="dropdown2-content">
                   <Link to="/" onClick={this.logOut}>LogOut</Link>
+                  <Link to="/User">Preferences</Link>
                 </div>
               </li>
             </div>
           </ul>
-        </nav></>
+        </nav>
+        </>
       )
     }
 

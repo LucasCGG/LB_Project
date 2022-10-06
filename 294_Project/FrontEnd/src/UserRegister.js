@@ -47,6 +47,7 @@ class UserRegister extends React.Component {
         fetch("http://localhost:8080/Player/one/?username=" + event.target.value, requestOptions)
             .then(response => response.json())
             .then(json => {
+
                 let output = document.querySelector('#output');
 
                 const uBox = document.getElementById("usernameBox");
@@ -56,16 +57,19 @@ class UserRegister extends React.Component {
                 const rand3 = document.querySelector('#BoxFrontUsername');
 
                 let name = event.target.value.toLowerCase();
-                console.log(json.username);
-
-                if (json.username !== name) {
+      
+                if (json === null ){
                     rand1.style.background = "rgba(255, 255, 255, 0.5)";
                     rand2.style.background = "rgba(255, 255, 255, 0.5)";
                     rand3.style.background = "rgba(255, 255, 255, 0.5)";
                     uBox.classList.remove("false");
                     this.usernameValid = true;
-                } else {
 
+                    output.innerHTML = "";
+
+
+
+                } else if (json.username === name){
                     rand1.style.background = "red";
                     rand2.style.background = "red";
                     rand3.style.background = "red";
@@ -74,6 +78,15 @@ class UserRegister extends React.Component {
                     output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
 
                     this.usernameValid = false;
+                }
+
+                else {
+                    rand1.style.background = "rgba(255, 255, 255, 0.5)";
+                    rand2.style.background = "rgba(255, 255, 255, 0.5)";
+                    rand3.style.background = "rgba(255, 255, 255, 0.5)";
+                    uBox.classList.remove("false");
+                    this.usernameValid = true;
+                    output.innerHTML = "";
 
                 }
             });
@@ -148,6 +161,7 @@ class UserRegister extends React.Component {
                     var x = JSON.stringify(json);
                     output.innerHTML = x;
                 });
+                window.location.replace("/");
         }
     }
 

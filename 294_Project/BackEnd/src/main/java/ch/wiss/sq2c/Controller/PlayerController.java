@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Player;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
+import ch.wiss.sq2c.Repositorys.GameRepository;
 
 /*
  * Die Klasse wird benutzt um änderung in der "Player" Table zu machen.
@@ -36,6 +38,9 @@ public class PlayerController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private GameRepository gameRepository;
 
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@RequestBody Player newPlayer) {
@@ -60,10 +65,18 @@ public class PlayerController {
 
     }
 
+    @PostMapping(path = "/test")
+    public @ResponseBody ResponseEntity<String> test(@RequestParam int id) {
+        List<Game> games = gameRepository.findByPlayerId(id);
+        Optional<Game> x = games.stream().findFirst();
+
+        gameRepository.deleteById(id);
+        return null;
+    }
+
     @DeleteMapping(path = "/del/")
-    public @ResponseBody ResponseEntity<String> delPlayer(@RequestParam Integer id) {
-        System.out.println(id);
-        if (id == null) {
+    public @ResponseBody ResponseEntity<String> delPlayer(@RequestParam int id) {
+        if (id <= 0) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid ID... Please provide a valide ID");
         }
         playerRepository.deleteById(id);
@@ -116,7 +129,7 @@ public class PlayerController {
     @CrossOrigin
     @PostMapping(path = "/login/")
     public @ResponseBody ResponseEntity<String> login(@Valid @RequestParam String email,
-            @RequestParam Integer password) {
+            @RequestParam String password) {
         System.out.println("login in");
         List<Player> players = playerRepository.findByEmailContaining(email);
         if (players != null) {
