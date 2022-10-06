@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,12 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.wiss.sq2c.Game;
+import ch.wiss.sq2c.Leaderboard;
 import ch.wiss.sq2c.Player;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
+import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 
 /*
  * Die Klasse wird benutzt um änderung in der "Player" Table zu machen.
@@ -41,6 +44,9 @@ public class PlayerController {
 
     @Autowired
     private GameRepository gameRepository;
+
+    @Autowired
+    private LeaderboardRepository leaderboardRepository;
 
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@RequestBody Player newPlayer) {
@@ -65,22 +71,35 @@ public class PlayerController {
 
     }
 
-    @PostMapping(path = "/test")
-    public @ResponseBody ResponseEntity<String> test(@RequestParam int id) {
-        List<Game> games = gameRepository.findByPlayerId(id);
-        Optional<Game> x = games.stream().findFirst();
-
-        gameRepository.deleteById(id);
-        return null;
-    }
-
     @DeleteMapping(path = "/del/")
-    public @ResponseBody ResponseEntity<String> delPlayer(@RequestParam int id) {
-        if (id <= 0) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid ID... Please provide a valide ID");
+    public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) {
+        List<Game> games = gameRepository.findByPlayerId(id);
+        List<Leaderboard> leaderboard = leaderboardRepository.findByPlayerId(id);
+
+        for (int i = 0; i < games.size(); i++) {
+            Game x = games.get(i);
+            gameRepository.delete(x);
+        }
+        for (int i = 0; i < leaderboard.size(); i++) {
+            Leaderboard x = leaderboard.get(i);
+            leaderboardRepository.delete(x);
         }
         playerRepository.deleteById(id);
         return ResponseEntity.ok("User identified by id: '" + id + "' has been deleted!");
+    }
+
+    @PutMapping(path = "add")
+    public @ResponseBody ResponseEntity<String> updatePlayer(@RequestBody @Valid Player newplayer) {
+        Player player = playerRepository.findById(newplayer.id).get();
+
+        player.setName(newplayer.name);
+        player.setUserName(newplayer.username);
+        player.setAge(newplayer.age);
+        player.setEmail(newplayer.email);
+        player.setPassword(newplayer.password);
+
+        playerRepository.save(player);
+        return ResponseEntity.ok("Successfully updated the User");
     }
 
     /*
@@ -88,7 +107,6 @@ public class PlayerController {
      */
     @GetMapping(path = "/one/")
     public @ResponseBody Optional<Player> getPlayerUsername(@RequestParam String username) {
-        System.out.println("Find 1 Player Request");
 
         List<Player> players = playerRepository.findByUsernameContaining(username);
 
@@ -101,7 +119,6 @@ public class PlayerController {
     @CrossOrigin
     @GetMapping(path = "/one/Email")
     public @ResponseBody Optional<Player> getPlayerEmail(@RequestParam String email) {
-        System.out.println("Find 1 Player Request");
 
         List<Player> players = playerRepository.findByEmailContaining(email);
 

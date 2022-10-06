@@ -24,6 +24,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       logedIn: false,
+      password:"",
       user_id: "",
       username: "",
       name: "",

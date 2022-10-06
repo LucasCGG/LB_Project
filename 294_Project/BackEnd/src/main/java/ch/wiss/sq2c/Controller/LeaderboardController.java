@@ -31,7 +31,6 @@ public class LeaderboardController {
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> updateBoard(@Valid @RequestBody Leaderboard board) {
         repo.save(board);
-        System.out.println("AASGSGA");
         return ResponseEntity.ok("Leaderboard has been updated");
     }
 

@@ -234,16 +234,14 @@ body {
 .button {
   display: flex;
   background-color: #c0392b;
-  width: 300px;
-  height: 100px;
+  width: 250px;
+  height: 90px;
   line-height: 100px;
   margin: auto;
   color: #fff;
-  position: absolute;
-  top: 60%;
-  bottom: 0%;
-  left: 0;
-  right: 0;
+  position:absolute;
+  right:5%;
+  top: 10%;
   cursor: pointer;
   overflow: hidden;
   border-radius: 5px;
@@ -337,4 +335,81 @@ body {
 
 .button:active {
   opacity: 1;
+}
+
+/*CHANGE THE USER DATA FORM*/
+.changeUserForm{
+	font-family: 'Open Sans Condensed', arial, sans;
+	width: 750px;
+	padding-top: 10px;
+  padding-left:30px;
+  padding-right:30px;
+  padding-bottom: 10px;
+	background: #FFFFFF;
+	margin: auto;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+	-moz-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.22);
+	-webkit-box-shadow:  0px 0px 15px rgba(0, 0, 0, 0.22);
+
+}
+.changeUserForm h2{
+	background: #4D4D4D;
+	text-transform: uppercase;
+	font-family: 'Open Sans Condensed', sans-serif;
+	color: #797979;
+	font-size: 18px;
+	font-weight: 100;
+	padding: 20px;
+	margin: -30px -30px 30px -30px;
+}
+.changeUserForm input[type="text"],
+.changeUserForm input[type="date"],
+.changeUserForm input[type="datetime"],
+.changeUserForm input[type="email"],
+.changeUserForm input[type="number"],
+.changeUserForm input[type="search"],
+.changeUserForm input[type="time"],
+.changeUserForm input[type="url"],
+.changeUserForm input[type="password"],
+.changeUserForm textarea,
+.changeUserForm select 
+{
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	outline: none;
+	display: block;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	border-bottom: 1px solid #ddd;
+	background: transparent;
+	margin-bottom: 10px;
+	font: 16px Arial, Helvetica, sans-serif;
+	height: 35px;
+}
+.changeUserForm textarea{
+	resize:none;
+	overflow: hidden;
+}
+.changeUserForm input[type="button"], 
+.changeUserForm input[type="submit"]{
+	-moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	-webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	box-shadow: inset 0px 1px 0px 0px #45D6D6;
+	background-color: #2CBBBB;
+	border: 1px solid #27A0A0;
+	display: inline-block;
+	cursor: pointer;
+	color: #FFFFFF;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-size: 14px;
+	padding: 8px 18px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+.changeUserForm input[type="button"]:hover, 
+.changeUserForm input[type="submit"]:hover {
+	background:linear-gradient(to bottom, #34CACA 5%, #30C9C9 100%);
+	background-color:#34CACA;
 }

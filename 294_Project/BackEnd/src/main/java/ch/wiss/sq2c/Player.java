@@ -7,23 +7,24 @@ import javax.validation.constraints.NotNull;
 /*
  * Diese Klasse erstellt die Tabelle "Player"
  */
+
 @Entity
 @Table(name = "Player")
 public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    public int id;
 
     public String username;
     @NotNull(message = "Name cannot be null")
-    private String name;
+    public String name;
 
     public String email;
     public String password;
 
     @Max(value = 100, message = "Age should not be greater than 100")
-    private int age;
+    public int age;
 
     // SETTER
     public void setID(int x) {

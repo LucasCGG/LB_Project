@@ -1,19 +1,28 @@
 import React from 'react';
-import AddGame from './AddGame';
-
 var x;
-
 class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            appState: props.appState
+            id:"",
+            name:"",
+            username:"",
+            age:"",
+            email:"",
+            password:""
         }
 
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmitRemove = this.handleSubmitRemove.bind(this);
+        this.handleSubmitChange = this.handleSubmitChange.bind(this);
+        this.handleUsername = this.handleUsername.bind(this);
+        this.handleName = this.handleName.bind(this);
+        this.handleAge = this.handleAge.bind(this);
+        this.handleEmail = this.handleEmail.bind(this);
+        this.handlePassword = this.handlePassword.bind(this);
+    
     }
 
-    handleSubmit(event) {
+    handleSubmitRemove(event) {
         event.preventDefault();
         var y = document.getElementById("output");
         console.log(this.props.appState.user_id);
@@ -39,14 +48,35 @@ class User extends React.Component {
                         email: "",
                         age: ""
                     });
-                }
-                else if (json.status !== 200){
-                    y.innerHTML = "Something went wrong... please try again later";
+                    setTimeout(900000);
 
+                    window.location.replace("/");
+                }
+                else if (json.status !== 200) {
+                    y.innerHTML = "Something went wrong... please try again later";
                 }
             });
 
     }
+
+    
+    componentDidMount() {
+        this.setState={
+            id: this.props.appState.user_id,
+            name: this.props.appState.name,
+            username: this.props.appState.username,
+            age: this.props.appState.age,
+            email: this.props.appState.email,
+            password: this.props.appState.password
+        }
+
+        document.getElementById("input1").value = this.props.appState.username;
+        document.getElementById("input2").value = this.props.appState.name;
+        document.getElementById("input3").value = this.props.appState.age;
+        document.getElementById("input4").value = this.props.appState.email;
+        document.getElementById("input5").value = "";
+    }
+
 
     setSuccess() {
         x = document.getElementById("removeUserButton");
@@ -54,22 +84,123 @@ class User extends React.Component {
         x.classList.add("success");
     }
 
+    handleUsername(event) {
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        }
+
+        fetch("http://localhost:8080/Player/one/?username=" + event.target.value, requestOptions)
+            .then(response => response.json())
+            .then(json => {
+
+                let output = document.getElementById('changeUserFomOutput');
+                let name = event.target.value.toLowerCase();
+      
+                if (json === null ){
+                    this.usernameValid = true;
+                    
+                    output.style.backgroundColor = "#4D4D4D";
+                    output.style.color = "#797979";
+                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
+
+                } else if (json.username === name){
+
+                    output.style.backgroundColor = "red";
+                    output.style.color = "white";
+                    output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
+
+                    this.usernameValid = false;
+                }
+                else {
+
+                    output.style.backgroundColor = "#4D4D4D";
+                    output.style.color = "#797979";
+                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
+                    
+                    this.usernameValid = true;
+                }
+            });
+        this.setState({ username: event.target.value });
+    }
+    handleName(event) {
+        this.setState({ name: event.target.value });
+    }
+    handleEmail(event) {
+        const requestOptions = {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
+        }
+
+        fetch("http://localhost:8080/Player/one/Email/?email=" + event.target.value, requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                let output = document.getElementById('changeUserFomOutput');
+
+                let data;
+                if (json != null) {
+                    data = json.email.toLowerCase();
+                }
+                let email = event.target.value.toLowerCase();
+
+                if (data == this.props.appState.email) {
+
+                    this.emailValid = false;
+
+                    output.style.backgroundColor = "red";
+                    output.style.color = "white";
+                    output.innerHTML = "E-Mail is already used." + "<br>" + "Please use a different E-Mail.";
+                }
+                else { 
+                    output.style.backgroundColor = "#4D4D4D";
+                    output.style.color = "#797979";
+                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
+                    this.emailValid = true;
+                }
+            });
+        this.setState({ email: event.target.value });
+    }
+    handleAge(event) {
+        this.setState({ age: event.target.value });
+    }
+    handlePassword(event) {
+        this.setState({ password: event.target.value });
+
+    }
+    handleSubmitChange(event) {
+        let output = document.getElementById('output');
+
+        event.preventDefault();
+        if (this.usernameValid) {
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(this.state)
+            }
+            fetch("http://localhost:8080/Player/add/", requestOptions)
+                .then(response => response.json())
+                .then(json => {
+                    var x = JSON.stringify(json);
+                    output.innerHTML = x;
+                });
+        }
+    }
 
     render() {
         return (
             <>
                 <h1>
-                    {this.state.appState.username}
+                    {this.props.appState.username}
                 </h1>
                 <div className='spacer'>
                 </div>
                 <div id='footer'>
                     <hr />
                     <p>
-                        You dont want to have this account anymore?... Then Press the big red Button. <br /> <i className='fa fa-arrow-down'></i>
+                        You dont want to have this account anymore?... <br/>Then Press the big red Button.&ensp;&ensp;<i className='fa fa-arrow-right'></i>
                     </p>
                     <p id="output"></p>
-                    <form id="removeUser" autoComplete='off' onSubmit={this.handleSubmit}>
+                    <form id="removeUser" autoComplete='off' onSubmit={this.handleSubmitRemove}>
                         <button id="removeUserButton" class='button' role="button" type='submit'>
                             <span> remove </span>
                             <div class="icon">
@@ -78,6 +209,22 @@ class User extends React.Component {
                             </div>
                         </button>
                     </form>
+                    <hr />
+                    <hr />
+                    <p>
+                        Did your forget your password again? <br/> Or do you just want to change the data we save about you?<br/><br/><i className='fa fa-arrow-down'></i>
+                    </p>
+                    <div class="changeUserForm">
+                        <h2 id="changeUserFomOutput">Magic Form to change your Data</h2>
+                        <form id="changeUser" autoComplete='off' onSubmit={this.handleSubmitChange}>
+                            <input id="input1" type="text" name="field1" placeholder="Username" onChange={this.handleUsername}/>
+                            <input id="input2" type="text" name="field2" placeholder="Name" onChange={this.handleName}/>
+                            <input id="input3" type="text" name="field3" placeholder="Age" onChange={this.handleAge}/>
+                            <input id="input4" type="email" name="field4" placeholder="Email" onChange={this.handleEmail}/>
+                            <input id="input5" type="password" name="field5" placeholder="Password" onChange={this.handlePassword}/>
+                            <input type="submit" value="Change it"/>
+                        </form>
+                    </div>
                     <hr />
                 </div>
             </>

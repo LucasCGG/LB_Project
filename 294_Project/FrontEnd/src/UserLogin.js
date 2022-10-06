@@ -95,6 +95,7 @@ class UserLogin extends React.Component {
 
 
                     if (json.status === 200) {
+                        x.innerHTML = "Login was successfull <br/> <br/> You can now continue to check out the Website :)";
                         fetch("http://localhost:8080/Player/one/Email/?email=" + this.state.email, requestOptionsGet)
                             .then(response => response.json())
                             .then(json => {
@@ -104,15 +105,15 @@ class UserLogin extends React.Component {
                                     username: json.username,
                                     name: json.name,
                                     email: json.email,
-                                    age: json.age
+                                    age: json.age,
+                                    password: json.password
                                 });
                             });
-                            window.location.replace("/");
                     }
-
                 });
         }
     }
+
 
     render() {
         return (

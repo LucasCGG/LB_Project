@@ -160,8 +160,12 @@ class UserRegister extends React.Component {
                 .then(json => {
                     var x = JSON.stringify(json);
                     output.innerHTML = x;
+                    if(json.status === 200){
+                        setTimeout('', 50000);
+                        window.location.replace("/");
+                    }
                 });
-                window.location.replace("/");
+                
         }
     }
 

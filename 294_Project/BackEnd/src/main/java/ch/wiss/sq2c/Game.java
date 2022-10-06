@@ -2,9 +2,6 @@ package ch.wiss.sq2c;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-
 /*
  * Diese Klasse erstellt die Tabelle
  */
