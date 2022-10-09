@@ -11,7 +11,7 @@ class AddGame extends React.Component {
         this.state = {
             name: "",
             description: "",
-            player:{
+            player: {
                 id: this.props.appState.user_id
             }
         }
@@ -21,7 +21,8 @@ class AddGame extends React.Component {
     }
 
     handleGameName(event) {
-        var test = document.getElementById("input_G_Name");
+        var x = document.getElementById("input_G_Name");
+        var y = document.getElementById("Output");
 
         const requestOptions = {
             method: "GET",
@@ -33,17 +34,21 @@ class AddGame extends React.Component {
             .then(json => {
                 let name = event.target.value.toLowerCase();
 
-                if (json.name === name) {
-                    test.style.backgroundColor = "red";
-                    gameNameValid = 0;
+                if (json.name.toLowerCase() === name) {
+                    x.style.backgroundColor = "red";
+                    this.gameNameValid = false;
+                    y.style.color="black";
+                    y.innerHTML="The Name you tried to use is already used"
                 }
-                else if (json.name === null) {
-                    test.style.backgroundColor = "green";
-                    gameNameValid = 1;
+                else {
+                    x.style.backgroundColor = "green";
+                    this.gameNameValid = true;
+                    y.innerHTML="";
+
                 }
             });
         this.setState({
-           name: event.target.value
+            name: event.target.value
         });
     }
 
@@ -52,23 +57,27 @@ class AddGame extends React.Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
+        var y = document.getElementById("Output");
 
-        const requestOptions = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.state)
+        if (this.gameNameValid === true) {
+            event.preventDefault();
+            const requestOptions = {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(this.state)
+            }
+            fetch("http://localhost:8080/game/add/", requestOptions)
+                .then(response => response.json())
+                .then(json => {
+                });
+                y.style.color="black";
+                y.innerHTML="Your game was successfully addet.";
         }
-        fetch("http://localhost:8080/game/add/", requestOptions)
-            .then(response => response.json())
-            .then(json => {
-                console.log(json.data);
-            });
     }
 
 
     render() {
-        
+
         if (this.props.appState.logedIn) {
             return (
                 <>
@@ -88,6 +97,7 @@ class AddGame extends React.Component {
                                     <input placeholder="Description" type="text" value={this.state.game_desc} onChange={this.handleGameDescription} />
                                     <button type="submit">Add Game</button>
                                 </form>
+                                <p id="Output"></p>
                             </div>
                         </div>
                         <hr />
@@ -110,7 +120,7 @@ class AddGame extends React.Component {
                             </ul>
                         </div>
                         <hr />
-                       
+
                     </div>
                 </>
             )

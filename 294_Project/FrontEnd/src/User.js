@@ -160,7 +160,7 @@ class User extends React.Component {
                     <hr />
                     <hr />
                     <p>
-                        Did your forget your password again? <br /> Or do you just want to change the data we save about you?<br /><br /><i className='fa fa-arrow-down'></i>
+                        Did your forget your password again? <br /> Or do you just want to change the data we save about you?<br /><i className='fa fa-arrow-down'></i>
                     </p>
                     <div class="changeUserForm">
                         <h2 id="changeUserFomOutput">Magic Form to change your Data</h2>

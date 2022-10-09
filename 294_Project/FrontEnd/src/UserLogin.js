@@ -90,10 +90,6 @@ class UserLogin extends React.Component {
             fetch("http://localhost:8080/Player/login/?email=" + this.state.email + "&password=" + this.state.password, requestOptionsPost)
                 .then(response => response)
                 .then(json => {
-                    console.log(json.data);
-                    console.log()
-
-
                     if (json.status === 200) {
                         x.innerHTML = "Login was successfull <br/> <br/> You can now continue to check out the Website :)";
                         fetch("http://localhost:8080/Player/one/Email/?email=" + this.state.email, requestOptionsGet)
@@ -111,6 +107,9 @@ class UserLogin extends React.Component {
                             });
                     }
                 });
+        }
+        else{
+            x.innerHTML="Your password and/or E-Mail are not correct."
         }
     }
 

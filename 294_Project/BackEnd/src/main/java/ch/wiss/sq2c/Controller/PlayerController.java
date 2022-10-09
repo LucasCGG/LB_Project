@@ -62,8 +62,8 @@ public class PlayerController {
         }
         newPlayer.email = confirmedEmail;
 
-        if (newPlayer.age > 100) {
-
+        if (newPlayer.age > 100 || newPlayer.age <= 0) {
+            throw new AgeIsWrongException("The age you gave us is invalid...");
         }
 
         try {
@@ -72,7 +72,7 @@ public class PlayerController {
             throw new UserInvalidException(newPlayer.username);
         }
 
-        return ResponseEntity.ok("User is valid");
+        return ResponseEntity.status(HttpStatus.OK).body("User is Valid");
 
     }
 

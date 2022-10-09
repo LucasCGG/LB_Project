@@ -120,10 +120,7 @@ class UserRegister extends React.Component {
                     rand2.style.background = "red";
                     rand3.style.background = "red";
                     eBox.classList.add("false");
-
                     this.emailValid = false;
-
-
                     output.innerHTML = "E-Mail is already used." + "<br>" + "Please use a different E-Mail.";
                 }
                 else {
@@ -163,9 +160,8 @@ class UserRegister extends React.Component {
                 .then(json => {
                     var x = JSON.stringify(json);
                     output.innerHTML = x;
+                    console.log(JSON.stringify(json));
                 });
-
-                
         }
     }
 
