@@ -74,9 +74,7 @@ class UserRegister extends React.Component {
                     rand2.style.background = "red";
                     rand3.style.background = "red";
                     uBox.classList.add("false");
-
                     output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
-
                     this.usernameValid = false;
                 }
 
@@ -108,7 +106,6 @@ class UserRegister extends React.Component {
 
                 const eBox = document.getElementById("emailBox");
 
-
                 const rand1 = document.querySelector("#BoxTopEmail");
                 const rand2 = document.querySelector("#BoxRightEmail");
                 const rand3 = document.querySelector('#BoxFrontEmail');
@@ -138,6 +135,12 @@ class UserRegister extends React.Component {
                     this.emailValid = true;
                 }
             });
+
+            fetch("http://localhost:8080/Player/one/Email/?email=" + event.target.value, requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                
+            });
         this.setState({ email: event.target.value });
     }
     handleAge(event) {
@@ -150,7 +153,7 @@ class UserRegister extends React.Component {
         let output = document.querySelector('#output');
         event.preventDefault();
         if (this.usernameValid) {
-            const requestOptions = {
+           const requestOptions = {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(this.state)
@@ -160,11 +163,8 @@ class UserRegister extends React.Component {
                 .then(json => {
                     var x = JSON.stringify(json);
                     output.innerHTML = x;
-                    if(json.status === 200){
-                        setTimeout('', 50000);
-                        window.location.replace("/");
-                    }
                 });
+
                 
         }
     }

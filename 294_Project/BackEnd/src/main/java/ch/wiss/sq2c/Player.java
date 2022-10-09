@@ -52,7 +52,7 @@ public class Player {
     }
 
     // GETTER
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 

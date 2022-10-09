@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import ch.wiss.sq2c.Exceptions.AgeIsWrongException;
 import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
+import ch.wiss.sq2c.Exceptions.UpdateUserException;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 
 @ControllerAdvice
@@ -47,6 +49,18 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EmailInvalidExcecption.class)
     public ResponseEntity<Object> handleEmailInvalidException(EmailInvalidExcecption ex,
+            WebRequest request) {
+        return createDefaultErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(UpdateUserException.class)
+    public ResponseEntity<Object> handleUpdateUserException(UpdateUserException ex,
+            WebRequest request) {
+        return createDefaultErrorResponse(ex.getMessage());
+    }
+
+    @ExceptionHandler(AgeIsWrongException.class)
+    public ResponseEntity<Object> handleAgeIsWrongException(AgeIsWrongException ex,
             WebRequest request) {
         return createDefaultErrorResponse(ex.getMessage());
     }

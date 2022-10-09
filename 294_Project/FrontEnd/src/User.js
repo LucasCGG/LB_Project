@@ -1,15 +1,16 @@
 import React from 'react';
 var x;
+var checkEmail;
 class User extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:"",
-            name:"",
-            username:"",
-            age:"",
-            email:"",
-            password:""
+            id: "",
+            name: "",
+            username: "",
+            age: "",
+            email: "",
+            password: ""
         }
 
         this.handleSubmitRemove = this.handleSubmitRemove.bind(this);
@@ -19,13 +20,33 @@ class User extends React.Component {
         this.handleAge = this.handleAge.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
-    
+
+    }
+
+
+    componentDidMount() {
+        this.setState({
+            id: this.props.appState.user_id,
+            name: this.props.appState.name,
+            username: this.props.appState.username,
+            age: this.props.appState.age,
+            email: this.props.appState.email,
+            password: this.props.appState.password
+        })
+
+        document.getElementById("input1").value = this.props.appState.username;
+        document.getElementById("input2").value = this.props.appState.name;
+        document.getElementById("input3").value = this.props.appState.age;
+        document.getElementById("input4").value = this.props.appState.email;
+        document.getElementById("input5").value = "";
     }
 
     handleSubmitRemove(event) {
         event.preventDefault();
         var y = document.getElementById("output");
         console.log(this.props.appState.user_id);
+
+        
 
         const requestOptionsPost = {
             method: "DELETE",
@@ -48,7 +69,7 @@ class User extends React.Component {
                         email: "",
                         age: ""
                     });
-                    setTimeout(900000);
+                    setTimeout(1000);
 
                     window.location.replace("/");
                 }
@@ -56,26 +77,10 @@ class User extends React.Component {
                     y.innerHTML = "Something went wrong... please try again later";
                 }
             });
-
     }
 
-    
-    componentDidMount() {
-        this.setState={
-            id: this.props.appState.user_id,
-            name: this.props.appState.name,
-            username: this.props.appState.username,
-            age: this.props.appState.age,
-            email: this.props.appState.email,
-            password: this.props.appState.password
-        }
 
-        document.getElementById("input1").value = this.props.appState.username;
-        document.getElementById("input2").value = this.props.appState.name;
-        document.getElementById("input3").value = this.props.appState.age;
-        document.getElementById("input4").value = this.props.appState.email;
-        document.getElementById("input5").value = "";
-    }
+
 
 
     setSuccess() {
@@ -85,79 +90,12 @@ class User extends React.Component {
     }
 
     handleUsername(event) {
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        }
-
-        fetch("http://localhost:8080/Player/one/?username=" + event.target.value, requestOptions)
-            .then(response => response.json())
-            .then(json => {
-
-                let output = document.getElementById('changeUserFomOutput');
-                let name = event.target.value.toLowerCase();
-      
-                if (json === null ){
-                    this.usernameValid = true;
-                    
-                    output.style.backgroundColor = "#4D4D4D";
-                    output.style.color = "#797979";
-                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
-
-                } else if (json.username === name){
-
-                    output.style.backgroundColor = "red";
-                    output.style.color = "white";
-                    output.innerHTML = "Username is already used." + "<br>" + "Please choose a different Username.";
-
-                    this.usernameValid = false;
-                }
-                else {
-
-                    output.style.backgroundColor = "#4D4D4D";
-                    output.style.color = "#797979";
-                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
-                    
-                    this.usernameValid = true;
-                }
-            });
         this.setState({ username: event.target.value });
     }
     handleName(event) {
         this.setState({ name: event.target.value });
     }
     handleEmail(event) {
-        const requestOptions = {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
-        }
-
-        fetch("http://localhost:8080/Player/one/Email/?email=" + event.target.value, requestOptions)
-            .then(response => response.json())
-            .then(json => {
-                let output = document.getElementById('changeUserFomOutput');
-
-                let data;
-                if (json != null) {
-                    data = json.email.toLowerCase();
-                }
-                let email = event.target.value.toLowerCase();
-
-                if (data == this.props.appState.email) {
-
-                    this.emailValid = false;
-
-                    output.style.backgroundColor = "red";
-                    output.style.color = "white";
-                    output.innerHTML = "E-Mail is already used." + "<br>" + "Please use a different E-Mail.";
-                }
-                else { 
-                    output.style.backgroundColor = "#4D4D4D";
-                    output.style.color = "#797979";
-                    output.innerHTML = "MAGIC FORM TO CHANGE YOUR DATA";
-                    this.emailValid = true;
-                }
-            });
         this.setState({ email: event.target.value });
     }
     handleAge(event) {
@@ -168,23 +106,33 @@ class User extends React.Component {
 
     }
     handleSubmitChange(event) {
+
+
         let output = document.getElementById('output');
 
         event.preventDefault();
-        if (this.usernameValid) {
-            const requestOptions = {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(this.state)
-            }
-            fetch("http://localhost:8080/Player/add/", requestOptions)
-                .then(response => response.json())
-                .then(json => {
-                    var x = JSON.stringify(json);
-                    output.innerHTML = x;
-                });
+
+        const requestOptions = {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(this.state)
         }
+        fetch("http://localhost:8080/Player/add/", requestOptions)
+            .then(response => response.json())
+            .then(json => {
+                var x = JSON.stringify(json);
+                output.innerHTML = x;
+            });
+
+            this.setState({
+                username:"",
+                name:"",
+                email:"",
+                age:"",
+                password:"",
+            })
     }
+
 
     render() {
         return (
@@ -197,7 +145,7 @@ class User extends React.Component {
                 <div id='footer'>
                     <hr />
                     <p>
-                        You dont want to have this account anymore?... <br/>Then Press the big red Button.&ensp;&ensp;<i className='fa fa-arrow-right'></i>
+                        You dont want to have this account anymore?... <br />Then Press the big red Button.&ensp;&ensp;<i className='fa fa-arrow-right'></i>
                     </p>
                     <p id="output"></p>
                     <form id="removeUser" autoComplete='off' onSubmit={this.handleSubmitRemove}>
@@ -212,17 +160,18 @@ class User extends React.Component {
                     <hr />
                     <hr />
                     <p>
-                        Did your forget your password again? <br/> Or do you just want to change the data we save about you?<br/><br/><i className='fa fa-arrow-down'></i>
+                        Did your forget your password again? <br /> Or do you just want to change the data we save about you?<br /><br /><i className='fa fa-arrow-down'></i>
                     </p>
                     <div class="changeUserForm">
                         <h2 id="changeUserFomOutput">Magic Form to change your Data</h2>
                         <form id="changeUser" autoComplete='off' onSubmit={this.handleSubmitChange}>
-                            <input id="input1" type="text" name="field1" placeholder="Username" onChange={this.handleUsername}/>
-                            <input id="input2" type="text" name="field2" placeholder="Name" onChange={this.handleName}/>
-                            <input id="input3" type="text" name="field3" placeholder="Age" onChange={this.handleAge}/>
-                            <input id="input4" type="email" name="field4" placeholder="Email" onChange={this.handleEmail}/>
-                            <input id="input5" type="password" name="field5" placeholder="Password" onChange={this.handlePassword}/>
-                            <input type="submit" value="Change it"/>
+                            <input id="input0" type="text" name="field0" placeholder={this.state.id} readOnly="true"/>
+                            <input id="input1" type="text" name="field1" placeholder="Username" onChange={this.handleUsername} />
+                            <input id="input2" type="text" name="field2" placeholder="Name" onChange={this.handleName} />
+                            <input id="input3" type="text" name="field3" placeholder="Age" onChange={this.handleAge} />
+                            <input id="input4" type="email" name="field4" placeholder="Email" onChange={this.handleEmail} />
+                            <input id="input5" type="password" name="field5" placeholder="Password" onChange={this.handlePassword} />
+                            <input type="submit" value="Change it" />
                         </form>
                     </div>
                     <hr />

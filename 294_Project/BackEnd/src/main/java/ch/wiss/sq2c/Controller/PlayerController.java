@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage.Body;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,8 @@ import ch.wiss.sq2c.Player;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
+import ch.wiss.sq2c.Exceptions.UpdateUserException;
+import ch.wiss.sq2c.Exceptions.AgeIsWrongException;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
@@ -61,6 +62,10 @@ public class PlayerController {
         }
         newPlayer.email = confirmedEmail;
 
+        if (newPlayer.age > 100) {
+
+        }
+
         try {
             playerRepository.save(newPlayer);
         } catch (Exception ex) {
@@ -90,14 +95,33 @@ public class PlayerController {
 
     @PutMapping(path = "add")
     public @ResponseBody ResponseEntity<String> updatePlayer(@RequestBody @Valid Player newplayer) {
-        Player player = playerRepository.findById(newplayer.id).get();
+        Player player = playerRepository.findById(newplayer.id).get(0);
+        List<Player> all = (List<Player>) playerRepository.findAll();
 
         player.setName(newplayer.name);
-        player.setUserName(newplayer.username);
-        player.setAge(newplayer.age);
-        player.setEmail(newplayer.email);
-        player.setPassword(newplayer.password);
 
+        for (Player x : all) {
+            if (!player.username.equals(x.username)) {
+                if (x.username.equals(newplayer.username)) {
+                    throw new UpdateUserException("This Username already Exists");
+                } else {
+                    player.setUserName(newplayer.username);
+                }
+            }
+        }
+        player.setAge(newplayer.age);
+
+        for (Player x : all) {
+            if (!player.email.equals(x.email)) {
+                if (x.email.equals(newplayer.email)) {
+                    throw new UpdateUserException("The email already exists..");
+                } else {
+                    player.setEmail(newplayer.email);
+                }
+            }
+        }
+
+        player.setPassword(newplayer.password);
         playerRepository.save(player);
         return ResponseEntity.ok("Successfully updated the User");
     }

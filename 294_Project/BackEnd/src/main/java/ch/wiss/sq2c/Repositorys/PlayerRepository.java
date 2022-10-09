@@ -16,5 +16,5 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
     List<Player> findByPasswordContaining(String password);
 
-    List<Player> findByIdContaining(int id);
+    List<Player> findById(int id);
 }
