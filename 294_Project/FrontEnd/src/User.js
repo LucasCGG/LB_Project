@@ -1,6 +1,5 @@
 import React from 'react';
 var x;
-var checkEmail;
 class User extends React.Component {
     constructor(props) {
         super(props);
@@ -149,7 +148,7 @@ class User extends React.Component {
                     </p>
                     <p id="output"></p>
                     <form id="removeUser" autoComplete='off' onSubmit={this.handleSubmitRemove}>
-                        <button id="removeUserButton" class='button' role="button" type='submit'>
+                        <button id="removeUserButton" class='button' type='submit'>
                             <span> remove </span>
                             <div class="icon">
                                 <i className='fa fa-remove'></i>

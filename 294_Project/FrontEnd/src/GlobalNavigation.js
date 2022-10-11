@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import App from './App';
 
-import Navigation from './Styles/GlobalNavigation.css'
+import './Styles/GlobalNavigation.css'
 
 class GlobalNavigation extends React.Component {
   constructor(props) {

@@ -115,7 +115,7 @@ class UserRegister extends React.Component {
                 }
                 let email = event.target.value.toLowerCase();
 
-                if (data == email) {
+                if (data === email) {
                     rand1.style.background = "red";
                     rand2.style.background = "red";
                     rand3.style.background = "red";
