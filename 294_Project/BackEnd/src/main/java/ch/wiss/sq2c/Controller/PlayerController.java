@@ -75,6 +75,7 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.OK).body("User is Valid");
 
     }
+    /* new */
 
     @DeleteMapping(path = "/del/")
     public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) {
