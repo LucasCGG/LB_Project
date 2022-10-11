@@ -31,8 +31,6 @@ class UserRegister extends React.Component {
         fetch("http://localhost:8080/Player/all/", requestOptions)
             .then(response => response.json())
             .then(json => {
-                console.log(json);
-
             });
 
     }
@@ -156,15 +154,25 @@ class UserRegister extends React.Component {
                 body: JSON.stringify(this.state)
             }
             fetch("http://localhost:8080/Player/add/", requestOptions)
-                .then(response => response.json())
-                .then(json => {
-                    var x = JSON.stringify(json);
-                    output.innerHTML = x;
-                    console.log(JSON.stringify(json));
-                });
+            .then((response) => response.json())
+            .then((data) => {
+                var x = JSON.stringify(data);
+                output.innerHTML = x;
+            })
+            .catch(SyntaxError => {
+                console.log(SyntaxError);
+                window.location.replace("/");
+            })
+
+            this.setState({
+                username:"",
+                name:"",
+                age:"",
+                email:"",
+                password:""
+        })
         }
     }
-
     render() {
         return (
             <>

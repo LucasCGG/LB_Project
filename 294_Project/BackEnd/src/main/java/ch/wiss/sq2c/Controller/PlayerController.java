@@ -26,7 +26,6 @@ import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Exceptions.UpdateUserException;
 import ch.wiss.sq2c.Exceptions.AgeIsWrongException;
-import ch.wiss.sq2c.Exceptions.CustomMessage;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
