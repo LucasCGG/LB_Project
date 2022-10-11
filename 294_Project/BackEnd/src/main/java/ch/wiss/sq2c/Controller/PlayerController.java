@@ -26,6 +26,7 @@ import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Exceptions.UpdateUserException;
 import ch.wiss.sq2c.Exceptions.AgeIsWrongException;
+import ch.wiss.sq2c.Exceptions.CustomMessage;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
@@ -51,8 +52,6 @@ public class PlayerController {
 
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addPlayer(@RequestBody Player newPlayer) {
-        System.out.println("Adding Player...");
-
         String confirmedEmail;
         boolean isOk = newPlayer.email.indexOf("@") != -1 ? true : false;
         if (isOk) {
@@ -72,12 +71,11 @@ public class PlayerController {
             throw new UserInvalidException(newPlayer.username);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body("User is Valid");
-
+        return ResponseEntity.ok("User was successfully addet");
     }
 
     @DeleteMapping(path = "/del/")
-    public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) {
+    public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) { 
         List<Game> games = gameRepository.findByPlayerId(id);
         List<Leaderboard> leaderboard = leaderboardRepository.findByPlayerId(id);
 
