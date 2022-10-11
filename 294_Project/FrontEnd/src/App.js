@@ -44,7 +44,7 @@ class App extends React.Component {
       <div>
         <Routes>
           <Route path="/" element={<Layout logedin={this.state.logedIn} />}>
-            <Route index element={<Home appState={this.state} />} />
+            <Route index element={<Home appState={this.state} logedin={this.state.logedIn}/>} />
             <Route path="About" element={<About />} />
             <Route path="Leaderboard" element={<Leaderboard appState={this.state} changeState={this.changeState}/>} />
             <Route path="OverviewGames" element={<OverviewGames appState={this.state} />} />

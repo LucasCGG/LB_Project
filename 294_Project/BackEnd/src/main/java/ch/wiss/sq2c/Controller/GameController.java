@@ -39,23 +39,27 @@ public class GameController {
     @PostMapping(path = "/add/")
     public @ResponseBody ResponseEntity<String> addGame(@Valid @RequestBody Game game) {
         gameRepository.save(game);
-        System.out.println("Game was Addet");
         return ResponseEntity.ok("Game is valid and has been uploaded.");
     }
 
     @GetMapping(path = "/one/")
     public @ResponseBody Optional<Game> getGameByName(@RequestParam String name) {
-        System.out.println("Find 1 Game Request");
-
         List<Game> games = gameRepository.findByNameContaining(name);
 
         return games.stream().findFirst();
     }
 
+    /*
+     * @GetMapping(path = "/player/")
+     * public @ResponseBody Stream<Game> getGameByPlayerID(@RequestParam int id) {
+     * List<Game> games = gameRepository.findByPlayerId(id);
+     * 
+     * return games.stream();
+     * }
+     */
+
     @GetMapping(path = "/search/")
     public @ResponseBody Stream<Game> getGamesByName(@RequestParam String name) {
-        System.out.println("Find 1 Game Request");
-
         List<Game> games = gameRepository.findByNameContaining(name);
 
         return games.stream();
@@ -72,7 +76,6 @@ public class GameController {
 
     @GetMapping(path = "/all/")
     public @ResponseBody Iterable<Game> getAllGames() {
-
         return gameRepository.findAll();
     }
 }

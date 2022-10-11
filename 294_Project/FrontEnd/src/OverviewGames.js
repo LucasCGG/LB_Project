@@ -65,12 +65,10 @@ class OverviewGame extends React.Component {
                 <div id='footer'>
                     <hr />
                     <div>
+                    <h3>Search Game in Library</h3>
                         <input placeholder='search game...' value={this.state.search} onChange={this.handleSearch}></input>
-
                         <p id="Output-addGame"className='noDisplay'>It seems like that Game does not exist yet, Would you want to <Link to="/AddGame">Add</Link></p>
-
                         <div id="input_search">
-                            <h3>Search Game in Library</h3>
                             <ul>
                                 {games.map(games => <li>{games}</li>)}
                             </ul>
@@ -81,7 +79,6 @@ class OverviewGame extends React.Component {
                         <div>
                             <h3>Playable Games</h3>
                             <Link to="/Snake">Snake</Link>
-                            <img src="../public/img/Games/snake.jpg" alt=''/>
                         </div>
                     </div>
                     <hr />

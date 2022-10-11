@@ -117,10 +117,15 @@ class User extends React.Component {
             body: JSON.stringify(this.state)
         }
         fetch("http://localhost:8080/Player/add/", requestOptions)
-            .then(response => response.json())
+            .then(response => response)
             .then(json => {
                 var x = JSON.stringify(json);
                 output.innerHTML = x;
+
+                if(json.status == 200){
+                    window.location.replace("/UserLogin");
+                    
+                }
             });
 
             this.setState({

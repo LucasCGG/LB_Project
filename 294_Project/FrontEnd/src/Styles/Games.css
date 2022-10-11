@@ -180,3 +180,8 @@ a:hover::before {
 .noDisplay{
   display: none;
 }
+
+.info{
+  font-size: 19px;
+  color: rgb(255, 255, 255);
+}
