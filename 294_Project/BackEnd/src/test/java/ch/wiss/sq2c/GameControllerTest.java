@@ -27,7 +27,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 @AutoConfigureMockMvc
-public class GamesControllerTest {
+public class GameControllerTest {
     @MockBean
     private PlayerRepository playerRepository;
 
@@ -45,7 +45,7 @@ public class GamesControllerTest {
 
     @Test
     @DisplayName("Check if the GamesController gets injected correctly")
-    public void CheckGameInjectNotNullU() throws Exception {
+    public void CheckGameInjectNotNull() throws Exception {
         assertThat(gameController).isNotNull();
     }
 

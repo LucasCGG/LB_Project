@@ -26,7 +26,6 @@ import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 import ch.wiss.sq2c.Exceptions.UpdateUserException;
 import ch.wiss.sq2c.Exceptions.AgeIsWrongException;
-import ch.wiss.sq2c.Exceptions.CustomMessage;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
@@ -73,10 +72,9 @@ public class PlayerController {
 
         return ResponseEntity.ok("User was successfully addet");
     }
-    /* new */
 
     @DeleteMapping(path = "/del/")
-    public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) { 
+    public @ResponseBody ResponseEntity<String> deletePlayer(@RequestParam int id) {
         List<Game> games = gameRepository.findByPlayerId(id);
         List<Leaderboard> leaderboard = leaderboardRepository.findByPlayerId(id);
 
@@ -146,21 +144,6 @@ public class PlayerController {
         List<Player> players = playerRepository.findByEmailContaining(email);
 
         return players.stream().findFirst();
-    }
-
-    /*
-     * Get ONE player by Email
-     */
-    @CrossOrigin
-    @PostMapping(path = "/email/")
-    public @ResponseBody ResponseEntity<String> getPlayerEmail(@Valid @RequestBody Player player) {
-        System.out.println("Find 1 Player Request");
-        List<Player> players = playerRepository.findByEmailContaining(player.email);
-        if (players != null) {
-            return ResponseEntity.ok("Email is valid");
-        } else {
-            return ResponseEntity.ok("Email is not valid");
-        }
     }
 
     /*

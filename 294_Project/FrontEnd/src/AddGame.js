@@ -93,7 +93,7 @@ class AddGame extends React.Component {
                                     <label>
                                         Add your game
                                     </label>
-                                    <h3 class="info">Please note that youre just entering the informations to the Library and not the Game itself.</h3>
+                                    <h3 class="info">Please note that youre just entering the informations to the library and not the game itself.</h3>
                                     <input id="input_G_Name" placeholder="Name" type="text" value={this.state.game_name} onChange={this.handleGameName} />
                                     <input placeholder="Description" type="text" value={this.state.game_desc} onChange={this.handleGameDescription} />
                                     <button type="submit">Add Game</button>
