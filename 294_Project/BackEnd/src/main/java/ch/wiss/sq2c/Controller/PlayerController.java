@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Leaderboard;
@@ -94,26 +95,50 @@ public class PlayerController {
     public @ResponseBody ResponseEntity<String> updatePlayer(@RequestBody @Valid Player newplayer) {
         Player player = playerRepository.findById(newplayer.id).get(0);
         List<Player> all = (List<Player>) playerRepository.findAll();
+        List<Player> playerByUsername = (List<Player>) playerRepository.findByUsernameContaining(newplayer.username);
+        List<Player> playerByEmail = (List<Player>) playerRepository.findByEmailContaining(newplayer.username);
 
         player.setName(newplayer.name);
 
-        for (Player x : all) {
-            if (!player.username.equals(x.username)) {
-                if (x.username.equals(newplayer.username)) {
+        System.out.println("1 " + playerByUsername.get(0).username);
+        System.out.println("2 " + playerByUsername.get(0).username.equals(newplayer.username));
+
+        System.out.println(playerByUsername + "   " + playerByUsername.isEmpty());
+        System.out.println(playerByUsername.isEmpty());
+        for (int i = 0; i < all.size(); i++) {
+
+            if (i >= 0 && i < playerByUsername.size()) {
+                System.out.println(
+                        playerByUsername.get(i).username + " AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                player.setUserName(newplayer.username);
+            }
+
+            if (playerByUsername.isEmpty()) {
+                player.setUserName(newplayer.username);
+            } else {
+                if (playerByUsername.get(0).username.equals(newplayer.username)) {
+                    System.out.println("playernames are equal");
+                    if (playerByUsername.get(0).id == newplayer.id) {
+                        System.out.println("id are the same");
+                        player.setUserName(newplayer.username);
+                    }
                     throw new UpdateUserException("This Username already Exists");
                 } else {
-                    player.setUserName(newplayer.username);
+                    throw new UpdateUserException("This Username already Exists");
                 }
             }
+
         }
         player.setAge(newplayer.age);
 
-        for (Player x : all) {
-            if (!player.email.equals(x.email)) {
-                if (x.email.equals(newplayer.email)) {
-                    throw new UpdateUserException("The email already exists..");
-                } else {
+        for (int i = 0; i < all.size(); i++) {
+            if (playerByEmail.isEmpty()) {
+                player.setEmail(newplayer.email);
+            } else {
+                if (playerByEmail.get(0).username.equals(newplayer.username)) {
                     player.setEmail(newplayer.email);
+                } else {
+                    throw new UpdateUserException("This Email already Exists");
                 }
             }
         }
