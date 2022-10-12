@@ -96,52 +96,49 @@ public class PlayerController {
         Player player = playerRepository.findById(newplayer.id).get(0);
         List<Player> all = (List<Player>) playerRepository.findAll();
         List<Player> playerByUsername = (List<Player>) playerRepository.findByUsernameContaining(newplayer.username);
-        List<Player> playerByEmail = (List<Player>) playerRepository.findByEmailContaining(newplayer.username);
+        List<Player> playerByEmail = (List<Player>) playerRepository.findByEmailContaining(newplayer.email);
 
         player.setName(newplayer.name);
 
-        System.out.println("1 " + playerByUsername.get(0).username);
-        System.out.println("2 " + playerByUsername.get(0).username.equals(newplayer.username));
-
-        System.out.println(playerByUsername + "   " + playerByUsername.isEmpty());
-        System.out.println(playerByUsername.isEmpty());
         for (int i = 0; i < all.size(); i++) {
-
-            if (i >= 0 && i < playerByUsername.size()) {
-                System.out.println(
-                        playerByUsername.get(i).username + " AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                player.setUserName(newplayer.username);
-            }
-
-            if (playerByUsername.isEmpty()) {
-                player.setUserName(newplayer.username);
-            } else {
-                if (playerByUsername.get(0).username.equals(newplayer.username)) {
-                    System.out.println("playernames are equal");
-                    if (playerByUsername.get(0).id == newplayer.id) {
-                        System.out.println("id are the same");
-                        player.setUserName(newplayer.username);
-                    }
-                    throw new UpdateUserException("This Username already Exists");
+            if (all.get(i).username == newplayer.username) {
+                if (playerByUsername.isEmpty()) {
+                    player.setUserName(newplayer.username);
                 } else {
-                    throw new UpdateUserException("This Username already Exists");
+                    if (playerByUsername.get(0).username.equals(newplayer.username)) {
+                        if (playerByUsername.get(0).id == newplayer.id) {
+                            player.setUserName(newplayer.username);
+                        } else {
+                            throw new UpdateUserException("This Username already Exists");
+                        }
+                    } else {
+                        throw new UpdateUserException("This Username already Exists");
+                    }
                 }
+            } else {
+                player.setUserName(newplayer.username);
             }
 
-        }
-        player.setAge(newplayer.age);
-
-        for (int i = 0; i < all.size(); i++) {
-            if (playerByEmail.isEmpty()) {
-                player.setEmail(newplayer.email);
-            } else {
-                if (playerByEmail.get(0).username.equals(newplayer.username)) {
+            if (all.get(i).username == newplayer.username) {
+                if (playerByEmail.isEmpty()) {
                     player.setEmail(newplayer.email);
                 } else {
-                    throw new UpdateUserException("This Email already Exists");
+                    System.out.println(playerByEmail.get(0).email == (newplayer.email) + " tf");
+                    if (playerByEmail.get(0).email.equals(newplayer.email)) {
+                        if (playerByEmail.get(0).id == newplayer.id) {
+                            player.setEmail(newplayer.email);
+                        } else {
+                            throw new UpdateUserException("This Email already Exists");
+                        }
+                    } else {
+                        throw new UpdateUserException("This Email already Exists");
+                    }
                 }
+            } else {
+                player.setUserName(newplayer.username);
             }
         }
+        player.setAge(newplayer.age);
 
         player.setPassword(newplayer.password);
         playerRepository.save(player);
