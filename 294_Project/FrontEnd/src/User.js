@@ -5,10 +5,10 @@ class User extends React.Component {
         super(props);
         this.state = {
             id: "",
-            name: "",
             username: "",
-            age: "",
+            name: "",
             email: "",
+            age: "",
             password: ""
         }
 
@@ -43,9 +43,6 @@ class User extends React.Component {
     handleSubmitRemove(event) {
         event.preventDefault();
         var y = document.getElementById("output");
-        console.log(this.props.appState.user_id);
-
-        
 
         const requestOptionsPost = {
             method: "DELETE",
@@ -79,7 +76,22 @@ class User extends React.Component {
     }
 
 
+    resetFormular(){
+        this.setState({
+            id: this.props.appState.user_id,
+            name: this.props.appState.name,
+            username: this.props.appState.username,
+            age: this.props.appState.age,
+            email: this.props.appState.email,
+            password: this.props.appState.password
+        })
 
+        document.getElementById("input1").value = this.props.appState.username;
+        document.getElementById("input2").value = this.props.appState.name;
+        document.getElementById("input3").value = this.props.appState.age;
+        document.getElementById("input4").value = this.props.appState.email;
+        document.getElementById("input5").value = "";
+    }
 
 
     setSuccess() {
@@ -117,24 +129,16 @@ class User extends React.Component {
             body: JSON.stringify(this.state)
         }
         fetch("http://localhost:8080/Player/add/", requestOptions)
-            .then(response => response)
+            .then(response => response.json())
             .then(json => {
                 var x = JSON.stringify(json);
                 output.innerHTML = x;
-
-                if(json.status == 200){
-                    window.location.replace("/UserLogin");
-                    
-                }
-            });
-
-            this.setState({
-                username:"",
-                name:"",
-                email:"",
-                age:"",
-                password:"",
             })
+            .catch(SyntaxError => {
+                console.log(SyntaxError);
+                window.location.replace("/");
+            });
+            this.resetFormular();
     }
 
 
@@ -151,7 +155,7 @@ class User extends React.Component {
                     <p>
                         You dont want to have this account anymore?... <br />Then Press the big red Button.&ensp;&ensp;<i className='fa fa-arrow-right'></i>
                     </p>
-                    <p id="output"></p>
+                    
                     <form id="removeUser" autoComplete='off' onSubmit={this.handleSubmitRemove}>
                         <button id="removeUserButton" class='button' type='submit'>
                             <span> remove </span>
@@ -162,6 +166,7 @@ class User extends React.Component {
                         </button>
                     </form>
                     <hr />
+                    <p id="output"></p>
                     <hr />
                     <p>
                         Did you forget your password again? <br /> Or do you just want to change the data we save about you?<br /><i className='fa fa-arrow-down'></i>

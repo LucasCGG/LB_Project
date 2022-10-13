@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.HttpServerErrorException.InternalServerError;
 
 import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Leaderboard;
@@ -157,7 +156,7 @@ public class PlayerController {
     }
 
     /*
-     * Get ONE Player using username
+     * Get ONE Player using email
      */
     @CrossOrigin
     @GetMapping(path = "/one/Email")
@@ -192,7 +191,6 @@ public class PlayerController {
 
     @GetMapping(path = "/all/")
     public @ResponseBody Iterable<Player> getAllPlayers() {
-        System.out.println("FindAll Player Request");
         return playerRepository.findAll();
     }
 }
