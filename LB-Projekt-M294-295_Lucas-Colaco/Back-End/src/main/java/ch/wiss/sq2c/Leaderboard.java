@@ -2,8 +2,10 @@ package ch.wiss.sq2c;
 
 import javax.persistence.*;
 
-/*
+/**
  * Diese Klasse erstellt die Tabelle "Leaderboard"
+ * 
+ * @author Lucas Colaco
  */
 @Entity
 @Table(name = "Leaderboard")

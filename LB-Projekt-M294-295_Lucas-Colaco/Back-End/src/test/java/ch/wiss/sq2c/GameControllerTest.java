@@ -24,6 +24,15 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+/**
+ * This does the Automatic test for the Backend.
+ * It Checks if the GameController gets injected correctly or if there was an
+ * error.
+ * It also checks if the the API works, by doing a Get Request.
+ * It checks if it works to search an individual Entry from the db.
+ * 
+ * @author Lucas Colaco
+ */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 @AutoConfigureMockMvc

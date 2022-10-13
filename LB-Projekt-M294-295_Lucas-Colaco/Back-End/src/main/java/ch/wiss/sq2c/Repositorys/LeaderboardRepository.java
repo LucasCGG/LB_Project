@@ -6,9 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import ch.wiss.sq2c.Leaderboard;
 
-/*
- * Wird verwendet um mit der Datenbank zu verbinden
-*/
+/**
+ * Wird verwendet um die Scripte mit der Datenbank zu verbinden
+ * 
+ * @author Lucas Colaco
+ */
 public interface LeaderboardRepository extends CrudRepository<Leaderboard, Integer> {
     List<Leaderboard> findByPlayerId(int id);
 }

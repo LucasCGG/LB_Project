@@ -23,9 +23,11 @@ import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 
-/*
+/**
  * Die Klasse wird benutzt um änderung in der "Game" Table zu machen.
  * (REST-API für "Game")
+ * 
+ * @author Lucas Colaco
  */
 @CrossOrigin
 @RestController

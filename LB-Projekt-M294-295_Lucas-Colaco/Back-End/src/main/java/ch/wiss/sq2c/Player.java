@@ -4,8 +4,10 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
-/*
+/**
  * Diese Klasse erstellt die Tabelle "Player"
+ * 
+ * @author Lucas Colaco
  */
 
 @Entity

@@ -20,6 +20,14 @@ import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 import ch.wiss.sq2c.Repositorys.PlayerRepository;
 
+/**
+ * This does the Automatic test for the Backend.
+ * It Checks if the Playercontroller gets injected correctly or if there was an
+ * error.
+ * It also checks if the the API works, by doing a Get Request.
+ * 
+ * @author Lucas Colaco
+ */
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
 @AutoConfigureMockMvc

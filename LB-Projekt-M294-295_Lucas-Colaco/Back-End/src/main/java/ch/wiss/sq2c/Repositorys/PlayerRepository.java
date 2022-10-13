@@ -6,9 +6,11 @@ import org.springframework.data.repository.CrudRepository;
 
 import ch.wiss.sq2c.Player;
 
-/*
- * Wird verwendet um mit der Datenbank zu verbinden
-*/
+/**
+ * Wird verwendet um das Programm mit der Datenbank zu verbinden
+ * 
+ * @author Lucas Colaco
+ */
 public interface PlayerRepository extends CrudRepository<Player, Integer> {
     List<Player> findByUsernameContaining(String username);
 

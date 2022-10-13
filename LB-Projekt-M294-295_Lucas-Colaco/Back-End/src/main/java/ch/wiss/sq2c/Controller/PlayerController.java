@@ -30,9 +30,11 @@ import ch.wiss.sq2c.Repositorys.PlayerRepository;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 import ch.wiss.sq2c.Repositorys.LeaderboardRepository;
 
-/*
+/**
  * Die Klasse wird benutzt um änderung in der "Player" Table zu machen.
  * (REST-API für "Player")
+ * 
+ * @author Lucas Colaco
  */
 @CrossOrigin
 @RestController

@@ -52,8 +52,6 @@ class User extends React.Component {
         fetch("http://localhost:8080/Player/del/?id=" + this.props.appState.user_id, requestOptionsPost)
             .then(response => response)
             .then(json => {
-                console.log(json.data);
-
                 if (json.status === 200) {
                     y.innerHTML = "Your Account was successfully deleted";
                     this.setSuccess();
