@@ -23,9 +23,11 @@ import ch.wiss.sq2c.Game;
 import ch.wiss.sq2c.Sq2cApplication;
 import ch.wiss.sq2c.Repositorys.GameRepository;
 
-/*
+/**
  * Die Klasse wird benutzt um änderung in der "Game" Table zu machen.
  * (REST-API für "Game")
+ * 
+ * @author Lucas
  */
 @CrossOrigin
 @RestController
@@ -48,15 +50,6 @@ public class GameController {
 
         return games.stream().findFirst();
     }
-
-    /*
-     * @GetMapping(path = "/player/")
-     * public @ResponseBody Stream<Game> getGameByPlayerID(@RequestParam int id) {
-     * List<Game> games = gameRepository.findByPlayerId(id);
-     * 
-     * return games.stream();
-     * }
-     */
 
     @GetMapping(path = "/search/")
     public @ResponseBody Stream<Game> getGamesByName(@RequestParam String name) {

@@ -2,6 +2,7 @@ import React from 'react';
 import './Styles/Leaderboard.css'
 
 
+
 class Leaderboard extends React.Component {
     constructor(props) {
         super(props);
@@ -10,9 +11,6 @@ class Leaderboard extends React.Component {
             board: []
         };
     }
-
-
-
 
     componentDidMount(event) {
         if (this.state.board === null || this.state.board.length === 0) {

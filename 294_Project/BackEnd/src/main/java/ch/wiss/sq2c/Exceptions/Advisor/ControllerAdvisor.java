@@ -20,6 +20,11 @@ import ch.wiss.sq2c.Exceptions.EmailInvalidExcecption;
 import ch.wiss.sq2c.Exceptions.UpdateUserException;
 import ch.wiss.sq2c.Exceptions.UserInvalidException;
 
+/**
+ * This Controlls what and when the Exceptions say
+ * 
+ * @author Lucas
+ */
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     @Override
